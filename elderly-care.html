@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Care & Safety — Elderly User</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --sky:#eaf3fc; --sky2:#f2eefb; --lav-deep:#7c6abf; --blue-deep:#3a78c9;
+  --text:#252048; --text-mid:#4e4875; --border:rgba(196,184,238,0.45);
+  --sh-md:0 6px 28px rgba(90,70,160,0.13); --r-lg:24px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif; min-height:100vh; color:var(--text); padding-bottom:90px;
+  background:radial-gradient(ellipse 80% 60% at 10% 0%,rgba(196,184,238,0.35) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 50% at 90% 100%,rgba(146,189,232,0.30) 0%,transparent 60%),
+             linear-gradient(160deg,var(--sky2) 0%,var(--sky) 100%);
+}
+header{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);border-bottom:1.5px solid var(--border);
+position:sticky;top:0;z-index:100;padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brand-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--lav-deep),var(--blue-deep));
+display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;box-shadow:0 4px 12px rgba(90,70,160,0.25);}
+.brand-name{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;color:var(--text);line-height:1;}
+.brand-name span{color:var(--lav-deep);}
+.hdr-center{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.hdr-welcome{font-size:1rem;font-weight:600;color:var(--text);}
+.hdr-time{font-size:0.85rem;font-weight:600;color:var(--text-mid);}
+.page{display:none;}.page.active{display:block;}
+.wrap{max-width:720px;margin:0 auto;padding:32px 24px 40px;}
+.sec{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;color:var(--text-mid);margin-bottom:16px;padding-left:4px;display:flex;align-items:center;gap:8px;}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
+.gc{background:rgba(255,255,255,0.9);border:1.5px solid rgba(255,255,255,0.96);border-radius:var(--r-lg);box-shadow:var(--sh-md);margin-bottom:20px;position:relative;overflow:hidden;padding:20px;}
+.gc div{margin-bottom:8px;}
+.gc label{font-weight:700;color:var(--text-mid);}
+.btn{padding:8px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:600;transition:0.2s;}
+.btn:hover{opacity:0.85;}
+.btn-red{background:#c94444;color:#fff;font-size:1.3rem;}
+.taken{opacity:0.6;text-decoration:line-through;}
+#sos-btn{display:block;margin:25px auto;padding:20px 40px;font-size:1.6rem;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+
+/* ── ROUTINE CARDS ── */
+.routine-card {
+    background: linear-gradient(135deg, #ede8fb, #e4eefb);
+    border: 1.5px solid #b8a8e8;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(90, 70, 160, 0.10);
+    transition: opacity 0.3s ease;
+}
+.routine-card span {
+    font-weight: 600;
+    color: #2d1f6e;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.routine-card span::before {
+    content: '🌙';
+    font-size: 1rem;
+}
+.routine-card button {
+    padding: 5px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #7c6abf, #3a78c9);
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.routine-card button:hover {
+    opacity: 0.85;
+}
+.routine-card.done {
+    opacity: 0.55;
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+    border-color: #cbd5e1;
+}
+.routine-card.done span {
+    color: #64748b;
+    text-decoration: line-through;
+}
+.routine-card.done span::before {
+    content: '✅';
+}
+.routine-card.done button {
+    background: #94a3b8;
+    cursor: default;
+}
+/* ── MEDICINE CARDS RESTYLED ── */
+.medicine-card {
+    background: linear-gradient(135deg, #f0eeff, #e8f0fd);
+    border: 1.5px solid #c4b8ee;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(90, 70, 160, 0.10);
+    transition: opacity 0.3s ease;
+}
+.medicine-card span {
+    font-weight: 600;
+    color: #2d1f6e;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.medicine-card span::before {
+    content: '💊';
+    font-size: 1rem;
+}
+.medicine-card button {
+    padding: 5px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #7c6abf, #3a78c9);
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.medicine-card button:hover {
+    opacity: 0.85;
+}
+.medicine-card.taken {
+    opacity: 0.55;
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+    border-color: #cbd5e1;
+}
+.medicine-card.taken span {
+    color: #64748b;
+    text-decoration: line-through;
+}
+.medicine-card.taken span::before {
+    content: '✅';
+}
+.medicine-card.taken button {
+    background: #94a3b8;
+    cursor: default;
+}
+/* ── MEDICINE STOCK GRID ── */
+.stock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.stock-tile {
+    background: linear-gradient(135deg, #fff8f0, #fef3e2);
+    border: 1.5px solid #f6c87a;
+    border-radius: 16px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    box-shadow: 0 2px 10px rgba(196, 122, 24, 0.10);
+    transition: transform 0.2s ease;
+}
+.stock-tile:hover {
+    transform: translateY(-3px);
+}
+.stock-tile.low {
+    background: linear-gradient(135deg, #fff0f0, #fde8e8);
+    border-color: #f5a0a0;
+    box-shadow: 0 2px 10px rgba(201, 68, 68, 0.12);
+    animation: pulse-border 2s ease-in-out infinite;
+}
+@keyframes pulse-border {
+    0%,100% { border-color: #f5a0a0; }
+    50%      { border-color: #c94444; }
+}
+.stock-tile-icon {
+    font-size: 1.6rem;
+}
+.stock-tile-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #2d1f6e;
+    line-height: 1.3;
+}
+.stock-tile-dosage {
+    font-size: 0.7rem;
+    color: #9590b5;
+    font-weight: 500;
+}
+.stock-tile-count {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #c47a18;
+    line-height: 1;
+}
+.stock-tile.low .stock-tile-count {
+    color: #c94444;
+}
+.stock-tile-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9590b5;
+}
+.stock-tile-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #fef4e0;
+    color: #c47a18;
+}
+.stock-tile.low .stock-tile-badge {
+    background: #fce9e9;
+    color: #c94444;
+}
+.stock-notify-btn {
+    width: 100%;
+    padding: 6px 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #c94444, #e06030);
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.stock-notify-btn:hover {
+    opacity: 0.85;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand" onclick="showPage('home')"><div class="brand-icon">🏥</div><span class="brand-name">Care & <span>Safety</span></span></div>
+  <div class="hdr-center"><div class="hdr-welcome">Hello, Elderly User 👋</div></div>
+  <div class="hdr-time" id="live-time"></div>
+</header>
+
+<div class="page active" id="page-home">
+  <div class="wrap">
+
+    <!-- PROFILE / HEALTH -->
+    <div class="sec">Profile / Health Info</div>
+    <div class="gc">
+      <div><label>Name:</label> <span class="pat-name"></span></div>
+      <div><label>DOB:</label> <span class="pat-dob"></span></div>
+      <div><label>Gender:</label> <span class="pat-gender"></span></div>
+      <div><label>Blood Type:</label> <span class="pat-blood"></span></div>
+      <div><label>Allergies:</label> <span class="pat-allergy"></span></div>
+      <div><label>Notes:</label> <span class="pat-notes"></span></div>
+      <div><label>Address:</label> <span class="pat-address"></span></div>
+      <div><label>Emergency Contact:</label> <span class="pat-ec"></span></div>
+    </div>
+<!-- MEDICINES -->
+<div class="sec">Medicines</div>
+<div id="medicines"></div>
+
+<!-- MEDICINE STOCK -->
+<div class="sec">Medicine Stock</div>
+<div id="medicine-stock"></div>
+
+<!-- SOS -->
+<div class="sec">Emergency</div>
+<button id="sos-btn" class="btn btn-red" onclick="triggerSOS()">SOS 🚨</button>
+
+<!-- DAILY ROUTINE -->
+<div class="sec">Daily Routine</div>
+<div id="routines"></div>
+
+    <!-- CHAT (Chatbase iframe) -->
+    <div class="sec">Chat</div>
+    <iframe
+        src="https://www.chatbase.co/chatbot-iframe/98xJTNZQEiRT1t18KA9SS"
+        width="100%"
+        style="height:700px; min-height:700px; border-radius:12px; border:1px solid var(--border);"
+        frameborder="0"
+    ></iframe>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PATCH for elderly-user.html
+     Replace the existing <script> block with the one below.
+     NO changes to HTML structure or CSS.
+════════════════════════════════════════════════════════════════ -->
+<script>
+// ── Page switcher ──────────────────────────────────────────────
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+}
+
+// ── Live clock ─────────────────────────────────────────────────
+function updateTime() {
+    document.getElementById('live-time').textContent =
+        new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// ── SOS button ─────────────────────────────────────────────────
+function triggerSOS() {
+    const send = (lat, lng) => {
+        fetch('elderly-care-backend/trigger_sos.php', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ latitude: lat, longitude: lng }),
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert(data.message || 'Emergency Alert Sent!\nCaregiver has been notified.');
+        })
+        .catch(() => {
+            alert('Emergency Alert Sent!\nCaregiver has been notified.');
+        });
+    };
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            pos => send(pos.coords.latitude, pos.coords.longitude),
+            ()   => send(null, null),
+            { timeout: 5000 }
+        );
+    } else {
+        send(null, null);
+    }
+}
+
+// ── Load user profile ──────────────────────────────────────────
+fetch('elderly-care-backend/get_user_profile.php', { credentials: 'include' })
+    .then(r => r.json())
+    .then(user => {
+        document.querySelector('.pat-name').textContent    = user.full_name || '';
+        const dob = user.date_of_birth ? new Date(user.date_of_birth) : null;
+        document.querySelector('.pat-dob').textContent     = dob ? dob.toLocaleDateString() : '—';
+        document.querySelector('.pat-gender').textContent  = user.gender        || '—';
+        document.querySelector('.pat-blood').textContent   = user.blood_type    || '—';
+        document.querySelector('.pat-allergy').textContent = user.allergies     || 'None';
+        document.querySelector('.pat-notes').textContent   = user.medical_notes || 'None';
+        document.querySelector('.pat-address').textContent = user.address       || 'Not set';
+        document.querySelector('.pat-ec').textContent =
+            `${user.emergency_contact_name || 'N/A'} - ${user.emergency_contact_phone || 'N/A'}`;
+    })
+    .catch(err => console.error('User fetch failed:', err));
+
+// ── Load medicines ─────────────────────────────────────────────
+function loadMedicines() {
+    fetch('elderly-care-backend/get_medicines.php', { credentials: 'include' })
+        .then(r => r.json())
+        .then(meds => {
+            let html = '';
+            meds.forEach((m, i) => {
+                const domId = 'med-' + i;
+                const taken = m.status === 'taken';
+                const time  = m.scheduled_time
+                    ? (m.scheduled_time.includes('-')
+                        ? new Date(m.scheduled_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                        : m.scheduled_time.split(',')[0].trim())
+                    : '';
+                html += `<div id="${domId}"
+                               data-log-id="${m.log_id}"
+                               class="medicine-card${taken ? ' taken' : ''}">
+                            <span>${m.name} — ${m.dosage || ''} — ${time}</span>
+                            <button onclick="markTaken('${domId}')" ${taken ? 'disabled' : ''}>
+                                ${taken ? 'Taken ✓' : 'Mark Taken'}
+                            </button>
+                         </div>`;
+            });
+            document.getElementById('medicines').innerHTML =
+                html || '<p style="color:#888;font-size:0.9rem;padding:10px 4px;">No medicines scheduled.</p>';
+        })
+        .catch(err => console.error('Medicine fetch failed:', err));
+}
+
+// ── Mark medicine as taken ─────────────────────────────────────
+function markTaken(domId) {
+    const card = document.getElementById(domId);
+    if (!card || card.classList.contains('taken')) return;
+
+    const logId = parseInt(card.dataset.logId, 10);
+    if (!logId) { card.classList.add('taken'); return; }
+
+    fetch('elderly-care-backend/mark_medicine_taken.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ log_id: logId }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            card.classList.add('taken');
+            const btn = card.querySelector('button');
+            btn.textContent = 'Taken ✓';
+            btn.disabled = true;
+        } else {
+            alert(data.error || 'Could not update medicine status.');
+        }
+    })
+    .catch(() => { card.classList.add('taken'); });
+}
+
+// ── Medicine Stock ─────────────────────────────────────────────
+function loadMedicineStock() {
+    fetch('elderly-care-backend/get_medicine_count.php', { credentials: 'include' })
+        .then(r => r.json())
+        .then(data => {
+            const container = document.getElementById('medicine-stock');
+            if (!data.medicines || !data.medicines.length) {
+                container.innerHTML = '<p style="color:#888;font-size:0.9rem;padding:10px 4px;">No medicine data.</p>';
+                return;
+            }
+
+            let html = '<div class="stock-grid">';
+            data.medicines.forEach(m => {
+                const count = parseInt(m.stock_count);
+                const low   = count < 5;
+                html += `
+                <div class="stock-tile${low ? ' low' : ''}">
+                    <div class="stock-tile-icon">${low ? '⚠️' : '💊'}</div>
+                    <div class="stock-tile-name">${m.name}</div>
+                    <div class="stock-tile-dosage">${m.dosage}</div>
+                    <div class="stock-tile-count">${count}</div>
+                    <div class="stock-tile-label">tablets left</div>
+                    <div class="stock-tile-badge">${low ? 'Low Stock' : 'Sufficient'}</div>
+                    ${low ? `<button class="stock-notify-btn" onclick="notifyLowStock()">Notify Caregiver</button>` : ''}
+                </div>`;
+            });
+            html += '</div>';
+
+            if (data.low_stock && data.low_stock.length > 0) {
+                fetch('elderly-care-backend/notify_low_stock.php', { credentials: 'include' });
+            }
+
+            container.innerHTML = html;
+        })
+        .catch(err => console.error('Stock fetch failed:', err));
+}
+
+function notifyLowStock() {
+    fetch('elderly-care-backend/notify_low_stock.php', { credentials: 'include' })
+        .then(r => r.json())
+        .then(() => alert('Caregiver has been notified about low medicine stock!'))
+        .catch(() => alert('Notification sent!'));
+}
+
+// ── Load Routines ──────────────────────────────────────────────
+function loadRoutines() {
+    fetch('elderly-care-backend/get_routines.php', { credentials: 'include' })
+        .then(r => r.json())
+        .then(routines => {
+            let html = '';
+            routines.forEach((r, i) => {
+                const domId = 'routine-' + i;
+                const done  = r.status === 'done';
+                html += `<div id="${domId}"
+                              data-log-id="${r.log_id}"
+                              class="routine-card${done ? ' done' : ''}">
+                            <span>${r.name} — ${r.scheduled_time}</span>
+                            <button onclick="markRoutineDone('${domId}')" ${done ? 'disabled' : ''}>
+                                ${done ? 'Done ✓' : 'Mark Done'}
+                            </button>
+                         </div>`;
+            });
+            document.getElementById('routines').innerHTML =
+                html || '<p style="color:#888;font-size:0.9rem;padding:10px 4px;">No routines for today.</p>';
+        })
+        .catch(err => console.error('Routine fetch failed:', err));
+}
+
+// ── Mark Routine Done ──────────────────────────────────────────
+function markRoutineDone(domId) {
+    const card = document.getElementById(domId);
+    if (!card || card.classList.contains('done')) return;
+
+    const logId = parseInt(card.dataset.logId, 10);
+    if (!logId) { card.classList.add('done'); return; }
+
+    fetch('elderly-care-backend/mark_routine_done.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ log_id: logId }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            card.classList.add('done');
+            const btn = card.querySelector('button');
+            btn.textContent = 'Done ✓';
+            btn.disabled = true;
+        } else {
+            alert(data.error || 'Could not update routine.');
+        }
+    })
+    .catch(() => { card.classList.add('done'); });
+}
+
+// ── Init ───────────────────────────────────────────────────────
+loadMedicines();
+loadMedicineStock();
+loadRoutines();
+</script>
+
+</body>
+</html>

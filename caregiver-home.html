@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Care &amp; Safety</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ───────────────────────────── */
+:root {
+  --sky:        #eaf3fc;
+  --sky2:       #f2eefb;
+  --lavender:   #e4ddf8;
+  --lav-mid:    #c4b8ee;
+  --lav-deep:   #7c6abf;
+  --lav-dark:   #4b3d8f;
+  --blue-soft:  #daeaf9;
+  --blue-deep:  #3a78c9;
+  --rose:       #fce9e9;
+  --rose-deep:  #c94444;
+  --amber:      #fef4e0;
+  --amber-deep: #c47a18;
+  --sage:       #e2f5ee;
+  --sage-deep:  #2f9e72;
+  --white:      #ffffff;
+  --text:       #252048;
+  --text-mid:   #4e4875;
+  --text-soft:  #9590b5;
+  --border:     rgba(196,184,238,0.45);
+  --shadow-sm:  0 2px 12px rgba(90,70,160,0.08);
+  --shadow-md:  0 6px 28px rgba(90,70,160,0.13);
+  --shadow-lg:  0 16px 48px rgba(90,70,160,0.18);
+  --r-md:       18px;
+  --r-lg:       24px;
+}
+
+/* ── RESET ───────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%,  rgba(196,184,238,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%, rgba(146,189,232,0.30) 0%, transparent 60%),
+    linear-gradient(160deg, var(--sky2) 0%, var(--sky) 100%);
+  color: var(--text);
+}
+
+/* ── PAGE SYSTEM ─────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── HEADER ──────────────────────────── */
+header {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1.5px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  padding: 0 clamp(18px, 5vw, 48px);
+  height: 66px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+.brand-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--lav-deep), var(--blue-deep));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem; flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(90,70,160,0.25);
+}
+.brand-name { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 600; color: var(--text); line-height: 1; }
+.brand-name span { color: var(--lav-deep); }
+
+.header-center { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.header-welcome { font-size: 0.9rem; font-weight: 600; color: var(--text); white-space: nowrap; }
+.header-monitoring { font-size: 0.75rem; color: var(--text-soft); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.monitoring-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage-deep); animation: blink 2s ease-in-out infinite; }
+
+.header-right { display: flex; align-items: center; gap: 14px; }
+.header-time { font-size: 0.75rem; color: var(--text-soft); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.btn-header {
+  padding: 8px 18px; border-radius: 10px;
+  background: var(--white); border: 1.5px solid var(--lav-mid);
+  color: var(--text-mid); font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: all 0.2s ease; white-space: nowrap;
+  text-decoration: none;
+}
+.btn-header:hover { background: var(--lavender); border-color: var(--lav-deep); color: var(--lav-dark); transform: translateY(-1px); }
+
+/* ── MAIN ────────────────────────────── */
+main { max-width: 700px; margin: 0 auto; padding: clamp(32px, 6vw, 60px) clamp(16px, 5vw, 24px) 64px; }
+
+/* ── ANIMATIONS ──────────────────────── */
+@keyframes blink     { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+@keyframes slideDown { from{opacity:0;transform:translateY(-18px);} to{opacity:1;transform:translateY(0);} }
+@keyframes fadeIn    { from{opacity:0;} to{opacity:1;} }
+@keyframes cardPop   { from{opacity:0;transform:translateY(20px) scale(0.97);} to{opacity:1;transform:translateY(0) scale(1);} }
+
+/* ════════════════════════════════════════
+   HOME PAGE
+════════════════════════════════════════ */
+.summary-card {
+  background: rgba(255,255,255,0.80);
+  border: 1.5px solid rgba(255,255,255,0.95);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md);
+  padding: 28px 30px 24px;
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  animation: slideDown 0.55s cubic-bezier(.22,.68,0,1.2) both;
+  position: relative; overflow: hidden;
+}
+.summary-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--lav-deep), var(--blue-deep));
+}
+.patient-avatar {
+  width: 68px; height: 68px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--lavender), var(--blue-soft));
+  border: 3px solid var(--white);
+  box-shadow: 0 4px 16px rgba(90,70,160,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem;
+}
+.patient-info { flex: 1; min-width: 160px; }
+.patient-name-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.patient-name { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 600; color: var(--text); }
+.patient-age { font-size: 0.8rem; color: var(--text-soft); font-weight: 500; background: var(--lavender); padding: 3px 10px; border-radius: 20px; }
+.patient-relation { font-size: 0.82rem; color: var(--text-soft); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+.status-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 30px; font-size: 0.78rem; font-weight: 700; }
+.status-stable { background: var(--sage); color: var(--sage-deep); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: blink 1.8s ease-in-out infinite; }
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem; font-weight: 500; color: var(--text-mid);
+  margin-bottom: 16px; padding-left: 4px;
+  display: flex; align-items: center; gap: 8px;
+  animation: fadeIn 0.5s ease 0.2s both;
+}
+.section-title::after { content: ''; flex:1; height: 1px; background: var(--border); }
+
+.cards-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.action-card {
+  background: rgba(255,255,255,0.82);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 32px 26px 28px;
+  color: var(--text);
+  display: flex; flex-direction: column; align-items: flex-start;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(.22,.68,0,1.2), box-shadow 0.25s ease;
+  position: relative; overflow: hidden;
+  border: none; text-align: left; width: 100%;
+}
+.action-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.25s; }
+.action-card:hover  { transform: translateY(-7px); box-shadow: var(--shadow-lg); }
+.action-card:hover::after { opacity: 1; }
+.card-health::after { background: linear-gradient(90deg, var(--lav-deep), var(--blue-deep)); }
+.card-alerts::after { background: linear-gradient(90deg, var(--rose-deep), var(--amber-deep)); }
+.action-card:nth-child(1) { animation: cardPop 0.55s cubic-bezier(.22,.68,0,1.2) 0.25s both; }
+.action-card:nth-child(2) { animation: cardPop 0.55s cubic-bezier(.22,.68,0,1.2) 0.38s both; }
+
+.card-icon-bg { width: 58px; height: 58px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.55rem; margin-bottom: 18px; transition: transform 0.25s ease; }
+.action-card:hover .card-icon-bg { transform: scale(1.08) rotate(-4deg); }
+.icon-health { background: linear-gradient(135deg, #edeafb, #daeaf9); }
+.icon-alerts { background: linear-gradient(135deg, #fce9e9, #fef4e0); }
+.card-heading { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.2; }
+.card-desc { font-size: 0.83rem; color: var(--text-soft); line-height: 1.6; margin-bottom: 22px; flex: 1; }
+.card-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 20px; border-radius: 11px; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: box-shadow 0.2s ease, transform 0.2s ease; letter-spacing: 0.01em; }
+.btn-health { background: linear-gradient(135deg, var(--lav-deep), var(--blue-deep)); color: #fff; }
+.btn-health:hover { box-shadow: 0 6px 20px rgba(90,70,160,0.4); transform: translateY(-1px); }
+.btn-alerts { background: linear-gradient(135deg, var(--rose-deep), #e06030); color: #fff; }
+.btn-alerts:hover { box-shadow: 0 6px 20px rgba(200,60,60,0.35); transform: translateY(-1px); }
+
+/* ════════════════════════════════════════
+   HEALTH REPORTS PAGE
+════════════════════════════════════════ */
+.page-header { margin-bottom: 32px; animation: slideDown 0.5s cubic-bezier(.22,.68,0,1.2) both; }
+.page-title { font-family: 'Fraunces', serif; font-size: 1.7rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.page-date { font-size: 0.85rem; color: var(--text-soft); display: flex; align-items: center; gap: 6px; }
+
+.section-label {
+  font-family: 'Fraunces', serif;
+  font-size: 1.0rem; font-weight: 500; color: var(--text-mid);
+  margin-bottom: 14px; padding-left: 2px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content: ''; flex:1; height: 1px; background: var(--border); }
+
+.medicine-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.med-card {
+  background: rgba(255,255,255,0.85);
+  border: 1.5px solid rgba(255,255,255,0.96);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  padding: 20px 20px 16px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.med-card:nth-child(1) { animation: cardPop 0.5s cubic-bezier(.22,.68,0,1.2) 0.10s both; }
+.med-card:nth-child(2) { animation: cardPop 0.5s cubic-bezier(.22,.68,0,1.2) 0.20s both; }
+.med-card:nth-child(3) { animation: cardPop 0.5s cubic-bezier(.22,.68,0,1.2) 0.30s both; }
+.med-card:nth-child(4) { animation: cardPop 0.5s cubic-bezier(.22,.68,0,1.2) 0.40s both; }
+.med-name { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.med-dosage { font-size: 0.75rem; color: var(--text-soft); margin-top: 2px; }
+.med-time { font-size: 0.78rem; color: var(--text-soft); }
+.med-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 0.76rem; font-weight: 700; align-self: flex-start; }
+.taken   { background: var(--sage);  color: var(--sage-deep); }
+.pending { background: var(--amber); color: var(--amber-deep); }
+.missed  { background: var(--rose);  color: var(--rose-deep); }
+.skipped { background: #f1f5f9;      color: var(--text-soft); }
+.status-dot-sm { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ════════════════════════════════════════
+   ALERTS PAGE
+════════════════════════════════════════ */
+.emergency-banner {
+  background: linear-gradient(135deg, #fff0f0, #ffe4e4);
+  border: 2px solid rgba(201,68,68,0.3);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 16px;
+  animation: slideDown 0.5s cubic-bezier(.22,.68,0,1.2) 0.1s both;
+  box-shadow: 0 4px 20px rgba(201,68,68,0.12);
+}
+.emergency-icon { font-size: 2rem; flex-shrink: 0; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.12);} }
+.e-title { font-family: 'Fraunces', serif; font-size: 1.0rem; font-weight: 600; color: var(--rose-deep); margin-bottom: 2px; }
+.e-sub   { font-size: 0.8rem; color: #a03030; }
+
+.alert-list { display: flex; flex-direction: column; gap: 14px; }
+
+.alert-item {
+  background: rgba(255,255,255,0.88);
+  border: 1.5px solid rgba(255,255,255,0.96);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px;
+  display: flex; gap: 16px; align-items: flex-start;
+  position: relative; overflow: hidden;
+}
+.alert-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.alert-emergency::before { background: var(--rose-deep); }
+.alert-resolved::before  { background: var(--sage-deep); }
+.alert-item:nth-child(1) { animation: cardPop 0.5s cubic-bezier(.22,.68,0,1.2) 0.10s both; }
+.alert-item:nth-child(2) { animation: cardPop 0.5s cubic-bezier(.22,.68,0,1.2) 0.22s both; }
+.alert-item:nth-child(3) { animation: cardPop 0.5s cubic-bezier(.22,.68,0,1.2) 0.34s both; }
+
+.alert-emoji { font-size: 1.5rem; flex-shrink: 0; margin-top: 1px; }
+.alert-body  { flex: 1; }
+.alert-title { font-weight: 700; font-size: 0.92rem; color: var(--text); margin-bottom: 3px; }
+.alert-desc  { font-size: 0.8rem; color: var(--text-soft); line-height: 1.5; margin-bottom: 8px; }
+.alert-meta  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.alert-time  { font-size: 0.74rem; color: var(--text-soft); display: flex; align-items: center; gap: 4px; }
+.alert-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.badge-emergency { background: var(--rose);  color: var(--rose-deep); }
+.badge-resolved  { background: var(--sage);  color: var(--sage-deep); }
+
+/* ── LOADING STATE ───────────────────── */
+.loading-msg { font-size: 0.85rem; color: var(--text-soft); padding: 18px 4px; }
+.error-msg   { font-size: 0.85rem; color: var(--rose-deep); padding: 18px 4px; }
+
+/* ── FOOTER ──────────────────────────── */
+footer { text-align: center; padding: 28px 20px; font-size: 0.75rem; color: var(--text-soft); border-top: 1px solid var(--border); margin-top: 20px; }
+footer span { color: var(--lav-deep); font-weight: 600; }
+
+/* ── RESPONSIVE ──────────────────────── */
+@media (max-width: 540px) {
+  .header-center { display: none; }
+  .cards-wrap { grid-template-columns: 1fr; }
+  .summary-card { flex-direction: column; text-align: center; gap: 16px; padding: 24px 20px 20px; }
+  .patient-name-row,.patient-relation,.status-row { justify-content: center; }
+  .action-card { align-items: center; text-align: center; }
+  .card-desc { text-align: center; }
+  .emergency-banner { flex-direction: column; text-align: center; }
+}
+@media (max-width: 480px) {
+  .medicine-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 380px) {
+  .brand-name { font-size: 1rem; }
+  .medicine-grid { grid-template-columns: 1fr; }
+}
+/* ── MEDICINE STOCK GRID ── */
+.stock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+    margin-bottom: 16px;
+}
+
+/* ── TILE ── */
+.stock-tile {
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px 16px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    gap: 10px;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.stock-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+
+/* ── ICON ── */
+.stock-tile-icon {
+    font-size: 2rem;
+}
+
+/* ── MEDICINE NAME ── */
+.stock-tile-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.3;
+}
+
+/* ── DOSAGE ── */
+.stock-tile-dosage {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* ── COUNT ── */
+.stock-tile-count {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #2563eb;
+    line-height: 1;
+}
+
+/* ── LABEL ── */
+.stock-tile-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+}
+
+/* ── BADGE ── */
+.stock-tile-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 30px;
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+/* ── LOW STOCK ── */
+.stock-tile.low {
+    border: 2px solid #ef4444;
+    background: #fff5f5;
+}
+
+.stock-tile.low .stock-tile-count {
+    color: #ef4444;
+}
+
+.stock-tile.low .stock-tile-badge {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* ── LOW STOCK BANNER ── */
+.low-stock-banner {
+    background: #ef4444;
+    color: white;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.low-stock-banner-icon {
+    font-size: 2rem;
+}
+
+.low-stock-banner-title {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.low-stock-banner-sub {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ───────────────────────── -->
+<header>
+  <div class="brand" onclick="showPage('home')">
+    <div class="brand-icon">🏥</div>
+    <span class="brand-name">Care &amp; <span>Safety</span></span>
+  </div>
+
+  <div class="header-center">
+    <div class="header-welcome" id="header-welcome">Welcome…</div>
+    <div class="header-monitoring">
+      <span class="monitoring-dot"></span>
+      <span id="header-monitoring-text">Loading…</span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <span class="header-time" id="liveClock"></span>
+    <button class="btn-header" id="btn-home-action" onclick="handleHeaderBtn()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <span id="header-btn-label">Logout</span>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <main>
+    <div class="summary-card">
+      <div class="patient-avatar" id="home-avatar">👴</div>
+      <div class="patient-info">
+        <div class="patient-name-row">
+          <span class="patient-name" id="home-patient-name">Loading…</span>
+          <span class="patient-age" id="home-patient-age"></span>
+        </div>
+        <div class="patient-relation" id="home-patient-relation">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          Home Care
+        </div>
+        <div class="status-row">
+          <span class="status-badge status-stable">
+            <span class="status-dot"></span> Stable
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">What would you like to check?</div>
+
+    <div class="cards-wrap">
+      <button class="action-card card-health" onclick="showPage('health')">
+        <div class="card-icon-bg icon-health">🩺</div>
+        <div class="card-heading">Health Reports</div>
+        <p class="card-desc" id="card-health-desc">Check medicine adherence and today's records.</p>
+        <span class="card-btn btn-health">View Reports →</span>
+      </button>
+
+      <button class="action-card card-alerts" onclick="showPage('alerts')">
+        <div class="card-icon-bg icon-alerts">🔔</div>
+        <div class="card-heading">Alerts &amp; Reminders</div>
+        <p class="card-desc">See emergency notifications and important safety alerts.</p>
+        <span class="card-btn btn-alerts">View Alerts →</span>
+      </button>
+    </div>
+  </main>
+
+  <footer>© 2026 <span>Care &amp; Safety</span> · AI-Assisted Elderly Care · All data is private and secure.</footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE: HEALTH REPORTS
+══════════════════════════════════════ -->
+<div id="page-health" class="page">
+  <main>
+    <div class="page-header">
+      <div class="page-title">🩺 Health Reports</div>
+      <div class="page-date" id="todayDate"></div>
+    </div>
+
+    <div class="section-label">💊 Medicine Adherence — Today</div>
+    <div class="medicine-grid" id="medicine-grid">
+      <p class="loading-msg">Loading medicines…</p>
+    </div>
+    <!-- MEDICINE STOCK -->
+<div class="section-label">📦 Medicine Stock</div>
+<div id="caregiver-medicine-stock">
+  <p class="loading-msg">Loading stock…</p>
+</div>
+  </main>
+
+  <footer>© 2026 <span>Care &amp; Safety</span> · AI-Assisted Elderly Care · All data is private and secure.</footer>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE: ALERTS
+══════════════════════════════════════ -->
+<div id="page-alerts" class="page">
+  <main>
+    <div class="page-header">
+      <div class="page-title">🔔 Alerts &amp; Reminders</div>
+      <div class="page-date" id="alerts-subtitle">Emergency notifications</div>
+    </div>
+
+    <div class="emergency-banner">
+      <div class="emergency-icon">🚨</div>
+      <div>
+        <div class="e-title">Emergency Alerts Active</div>
+        <div class="e-sub">You will be notified instantly of any emergency. The system is monitoring continuously.</div>
+      </div>
+    </div>
+
+    <div class="section-label">🚨 Emergency Alerts</div>
+    <div class="alert-list" id="alert-list">
+      <p class="loading-msg">Loading alerts…</p>
+    </div>
+  </main>
+
+  <footer>© 2026 <span>Care &amp; Safety</span> · AI-Assisted Elderly Care · All data is private and secure.</footer>
+</div>
+
+<script>
+/* ── CLOCK ── */
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2,'0');
+  const m = now.getMinutes().toString().padStart(2,'0');
+  const s = now.getSeconds().toString().padStart(2,'0');
+  document.getElementById('liveClock').textContent = h + ':' + m + ':' + s;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ── DATE ── */
+(function setDate() {
+  const el = document.getElementById('todayDate');
+  if (!el) return;
+  const today = new Date();
+  const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  el.innerHTML =
+    `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    &nbsp;${today.toLocaleDateString('en-IN', opts)}`;
+})();
+
+/* ── PAGE ROUTING ── */
+let currentPage = 'home';
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  currentPage = name;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const btn = document.getElementById('btn-home-action');
+  if (name === 'home') {
+    btn.innerHTML =
+      `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+       <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+       <polyline points="16 17 21 12 16 7"/>
+       <line x1="21" y1="12" x2="9" y2="12"/>
+       </svg> Logout`;
+  } else {
+    btn.innerHTML =
+      `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+       <polyline points="15 18 9 12 15 6"/>
+       </svg> Back`;
+  }
+
+if (name === 'health') {
+    loadMedicines();
+    loadMedicineStock();
+}
+  if (name === 'alerts') loadAlerts();
+}
+
+function handleHeaderBtn() {
+  if (currentPage === 'home') {
+    window.location.href = 'index.html';
+  } else {
+    showPage('home');
+  }
+}
+
+/* ── HELPERS ── */
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatTime(t) {
+  if (!t) return '—';
+  // If it's a proper datetime string (contains '-'), parse it normally
+  if (t.includes('-')) {
+    return new Date(t).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+  }
+  // Otherwise it's a raw scheduled_times string like "08:00,20:00" — show as-is
+  return t;
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const now  = new Date();
+  const past = new Date(dateStr);
+  const diff = now - past;
+  const days = Math.floor(diff / 86400000);
+  const time = past.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+  if (days === 0) return `Today, ${time}`;
+  if (days === 1) return `Yesterday, ${time}`;
+  return `${days} days ago`;
+}
+
+function alertEmoji(type, status) {
+  if ((status || '').toLowerCase() === 'resolved') return '✅';
+  const map = { sos:'🚨', fall:'🚶', medication:'💊', health:'🫀' };
+  return map[type] || '⚠️';
+}
+
+/* ═══════════════════════════════════════
+   LOAD PATIENT INFO  →  get_patient.php
+   Returns JSON:
+   {
+     caregiver_name: "Sarah Johnson",
+     full_name:      "Robert Thompson",
+     age:            75,
+     avatar:         "👴",
+     relation:       "Father"      // optional
+   }
+═══════════════════════════════════════ */
+function loadPatient() {
+  fetch('elderly-care-backend/get_patient.php')
+    .then(r => r.json())
+    .then(p => {
+      if (p.error) return;
+
+      // ── Header ──
+      document.getElementById('header-welcome').textContent =
+        `Welcome, ${p.caregiver_name}`;
+      document.getElementById('header-monitoring-text').textContent =
+        `Monitoring: ${p.full_name}`;
+
+      // ── Home summary card ──
+      document.getElementById('home-avatar').textContent = p.avatar || '👴';
+      document.getElementById('home-patient-name').textContent = p.full_name;
+      if (p.age) {
+        document.getElementById('home-patient-age').textContent = `Age ${p.age}`;
+      }
+
+      // Relation line
+      const relEl = document.getElementById('home-patient-relation');
+      relEl.innerHTML =
+        `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+           <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+         </svg>
+         ${p.relation ? `Your ${escHtml(p.relation)} · ` : ''}Home Care`;
+
+      // ── Action card descriptions ──
+      document.getElementById('card-health-desc').textContent =
+        `Check medicine adherence and today's records for ${p.full_name}.`;
+
+      // ── Alerts page subtitle ──
+      document.getElementById('alerts-subtitle').textContent =
+        `Emergency notifications for ${p.full_name}`;
+    })
+    .catch(err => console.error('Patient load failed:', err));
+}
+
+/* ═══════════════════════════════════════
+   LOAD MEDICINES  →  getmedicines.php
+   Returns JSON array:
+   [
+     {
+       name:           "Metformin",
+       dosage:         "500mg",
+       scheduled_time: "2026-03-08 08:00:00",
+       taken_time:     "2026-03-08 08:05:00",  // or null
+       status:         "taken" | "pending" | "missed" | "skipped"
+     }, …
+   ]
+═══════════════════════════════════════ */
+function loadMedicines() {
+  const grid = document.getElementById('medicine-grid');
+  grid.innerHTML = '<p class="loading-msg">Loading medicines…</p>';
+
+  fetch('elderly-care-backend/getmedicines.php')
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        grid.innerHTML = `<p class="error-msg">${escHtml(data.error)}</p>`;
+        return;
+      }
+
+      // Support both a flat array and { medicines: [] } envelope
+      const list = Array.isArray(data) ? data : (data.medicines || []);
+
+      if (!list.length) {
+        grid.innerHTML = '<p class="loading-msg">No medicines scheduled for today.</p>';
+        return;
+      }
+
+      grid.innerHTML = list.map(m => {
+        const status = (m.status || 'pending').toLowerCase();
+        const label  = status.charAt(0).toUpperCase() + status.slice(1);
+        return `
+        <div class="med-card">
+          <div>
+            <div class="med-name">${escHtml(m.name || m.medicine_name || '')}</div>
+            ${m.dosage ? `<div class="med-dosage">${escHtml(m.dosage)}</div>` : ''}
+          </div>
+          <div class="med-time">⏰ ${formatTime(m.scheduled_time)}</div>
+          <span class="med-status ${status}">
+            <span class="status-dot-sm"></span> ${label}
+          </span>
+        </div>`;
+      }).join('');
+    })
+    .catch(err => {
+      console.error(err);
+      grid.innerHTML = '<p class="error-msg">Medicine data failed to load.</p>';
+    });
+}
+function loadMedicineStock() {
+    fetch('elderly-care-backend/get_medicine_count_caregiver.php', { credentials: 'include' })
+        .then(r => r.json())
+        .then(data => {
+            const container = document.getElementById('caregiver-medicine-stock');
+            if (!data.medicines || !data.medicines.length) {
+                container.innerHTML = '<p class="loading-msg">No medicine stock data.</p>';
+                return;
+            }
+
+            // Show low stock banner if any
+            let html = '';
+            if (data.low_stock && data.low_stock.length > 0) {
+                html += `
+                <div class="low-stock-banner">
+                    <div class="low-stock-banner-icon">⚠️</div>
+                    <div>
+                        <div class="low-stock-banner-title">Low Stock Alert</div>
+                        <div class="low-stock-banner-sub">
+                            ${data.low_stock.join(', ')} running low — please refill soon.
+                        </div>
+                    </div>
+                </div>`;
+            }
+
+            // Stock tiles grid
+            html += '<div class="stock-grid">';
+            data.medicines.forEach(m => {
+                const count = parseInt(m.stock_count);
+                const low   = count < 5;
+                html += `
+                <div class="stock-tile${low ? ' low' : ''}">
+                    <div class="stock-tile-icon">${low ? '⚠️' : '💊'}</div>
+                    <div class="stock-tile-name">${m.name}</div>
+                    <div class="stock-tile-dosage">${m.dosage}</div>
+                    <div class="stock-tile-count">${count}</div>
+                    <div class="stock-tile-label">tablets left</div>
+                    <div class="stock-tile-badge">${low ? 'Low Stock' : 'Sufficient'}</div>
+                </div>`;
+            });
+            html += '</div>';
+
+            container.innerHTML = html;
+        })
+        .catch(err => console.error('Stock fetch failed:', err));
+}
+
+/* ═══════════════════════════════════════
+   LOAD ALERTS  →  get_alerts.php
+   Returns JSON:
+   {
+     patient: { full_name: "Robert Thompson" },
+     alerts: [
+       {
+         alert_type:   "sos" | "fall" | "medication" | "health",
+         message:      "Emergency button pressed",
+         triggered_at: "2026-03-08 09:24:59",
+         status:       "active" | "acknowledged" | "resolved"
+       }, …
+     ]
+   }
+═══════════════════════════════════════ */
+function loadAlerts() {
+  const list = document.getElementById('alert-list');
+
+  fetch('elderly-care-backend/get_alerts.php')
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        list.innerHTML = `<p class="error-msg">${escHtml(data.error)}</p>`;
+        return;
+      }
+
+      // Support both flat array and { patient, alerts } envelope
+      const alerts  = Array.isArray(data) ? data : (data.alerts  || []);
+      const patient = Array.isArray(data) ? null  : (data.patient || null);
+
+      if (patient) {
+        document.getElementById('alerts-subtitle').textContent =
+          `Emergency notifications for ${patient.full_name}`;
+      }
+
+      if (!alerts.length) {
+        list.innerHTML = '<p class="loading-msg">No alerts at this time.</p>';
+        return;
+      }
+
+      list.innerHTML = alerts.map((a, i) => {
+        const resolved   = (a.status || '').toLowerCase() === 'resolved';
+        const itemClass  = resolved ? 'alert-resolved' : 'alert-emergency';
+        const badgeClass = resolved ? 'badge-resolved'  : 'badge-emergency';
+        const badgeLabel = resolved ? 'Resolved'        : 'Emergency';
+        const type       = (a.alert_type || a.type || 'sos').toLowerCase();
+        const emoji      = alertEmoji(type, a.status);
+        const title      = type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+        // stagger animation beyond the first 3
+        const delay = i < 3 ? '' : `style="animation-delay:${0.1 + i * 0.1}s"`;
+
+        return `
+        <div class="alert-item ${itemClass}" ${delay}>
+          <div class="alert-emoji">${emoji}</div>
+          <div class="alert-body">
+            <div class="alert-title">${title} Alert</div>
+            <div class="alert-desc">${escHtml(a.message || '')}</div>
+            <div class="alert-meta">
+              <span class="alert-time">${timeAgo(a.triggered_at)}</span>
+              <span class="alert-badge ${badgeClass}">${badgeLabel}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    })
+    .catch(err => {
+      console.error(err);
+      list.innerHTML = '<p class="error-msg">Alert data failed to load.</p>';
+    });
+}
+
+/* ── INIT ── */
+loadPatient();
+loadMedicines();
+ loadMedicineStock();
+loadAlerts();
+
+/* ── AUTO REFRESH ALERTS every 10 seconds ── */
+setInterval(loadAlerts, 10000);
+</script>
+</body>
+</html>

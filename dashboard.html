@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CareAdmin</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #f5f7fa; color: #1a1a2e; min-height: 100vh; }
+
+  /* ── TOP NAV ── */
+  header {
+    background: #1e293b;
+    color: #fff;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand { font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  /* ── HEADER RIGHT ── */
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .admin-pill { font-size: 0.75rem; font-weight: 700; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px; }
+  .clock-pill { font-size: 0.75rem; font-weight: 800; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 20px; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; color: #86efac; }
+  .btn-logout { font-size: 0.75rem; font-weight: 800; background: rgba(239,68,68,0.18); color: #fca5a5; border: 1px solid rgba(239,68,68,0.35); padding: 5px 14px; border-radius: 20px; cursor: pointer; font-family: 'Nunito', sans-serif; transition: background 0.15s; }
+  .btn-logout:hover { background: rgba(239,68,68,0.32); }
+
+  /* ── TABS ── */
+  .tabs {
+    background: #fff;
+    border-bottom: 2px solid #e5e7eb;
+    padding: 0 24px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #6b7280;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .tab:hover { color: #1e293b; }
+  .tab.active { color: #3b82f6; border-bottom-color: #3b82f6; }
+
+  /* ── LAYOUT ── */
+  .page { display: none; }
+  .page.active { display: block; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
+
+  /* ── CARDS ── */
+  .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 20px; }
+  .card-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .card-title { font-size: 0.95rem; font-weight: 800; }
+  .card-body { padding: 20px; }
+
+  /* ── STAT GRID ── */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .stat {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px 16px;
+    border-top: 3px solid #3b82f6;
+  }
+  .stat.g { border-top-color: #22c55e; }
+  .stat.a { border-top-color: #f59e0b; }
+  .stat.r { border-top-color: #ef4444; }
+  .stat-val { font-size: 2rem; font-weight: 800; color: #1a1a2e; line-height: 1; }
+  .stat-lbl { font-size: 0.72rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; margin-top: 5px; }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+  thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 0.67rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-weight: 800;
+    color: #9ca3af;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+    white-space: nowrap;
+  }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid #f5f5f5; color: #374151; vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #f9fafb; }
+  td strong { color: #1a1a2e; font-weight: 700; }
+
+  /* ── BADGES ── */
+  .badge { display: inline-block; font-size: 0.68rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .b-green { background: #dcfce7; color: #16a34a; }
+  .b-blue  { background: #dbeafe; color: #2563eb; }
+  .b-amber { background: #fef9c3; color: #d97706; }
+  .b-red   { background: #fee2e2; color: #dc2626; }
+  .b-gray  { background: #f3f4f6; color: #6b7280; }
+
+  /* ── BUTTONS ── */
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; border: none; border-radius: 8px; padding: 9px 16px; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.88; }
+  .btn-primary { background: #3b82f6; color: #fff; }
+  .btn-danger  { background: #ef4444; color: #fff; }
+  .btn-ghost   { background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+  .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+
+  /* ── FORM ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 0.75rem; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 0.07em; }
+  .field input, .field select {
+    padding: 11px 14px;
+    font-size: 0.95rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #1a1a2e;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field input:focus, .field select:focus { border-color: #3b82f6; }
+  .form-actions { display: flex; gap: 10px; margin-top: 18px; }
+
+  /* ── MODAL ── */
+  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 999; align-items: center; justify-content: center; }
+  .modal-bg.show { display: flex; }
+  .modal { background: #fff; border-radius: 14px; width: 92%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: popIn 0.22s ease both; overflow: hidden; }
+  @keyframes popIn { from{opacity:0;transform:scale(0.93);} to{opacity:1;transform:scale(1);} }
+  .modal-head { padding: 18px 22px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; }
+  .modal-title { font-size: 1rem; font-weight: 800; }
+  .modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #9ca3af; }
+  .modal-body { padding: 22px; }
+
+  /* ── TOAST ── */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #1e293b; color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; z-index: 9999; display: none; animation: slideUp 0.25s ease; }
+  @keyframes slideUp { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+
+  .status-bar { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; }
+  .s-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: blink 2s infinite; }
+  .text-muted { color: #9ca3af; font-size: 0.8rem; }
+
+  @media (max-width: 600px) { .wrap { padding: 16px 12px; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <div class="brand-dot"></div>
+    🛡 CareAdmin
+  </div>
+  <div class="header-right">
+    <div class="admin-pill" id="adminName">Super Admin</div>
+    <div class="clock-pill" id="liveClock">00:00:00</div>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('dashboard', this)">📊 Dashboard</button>
+  <button class="tab" onclick="showTab('users', this)">👥 Manage Users</button>
+  <button class="tab" onclick="showTab('alerts', this)">🚨 Alerts</button>
+  <button class="tab" onclick="showTab('system', this)">⚙️ System</button>
+</div>
+
+<!-- ════ DASHBOARD ════ -->
+<div class="page active" id="tab-dashboard">
+<div class="wrap">
+
+  <!-- 4 stat cards only (Active Users + Unresolved removed) -->
+  <div class="stats" id="stat-cards">
+    <div class="stat">
+      <div class="stat-val" id="s-total">—</div>
+      <div class="stat-lbl">Total Users</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="s-elderly">—</div>
+      <div class="stat-lbl">Elderly</div>
+    </div>
+    <div class="stat g">
+      <div class="stat-val" id="s-caregivers">—</div>
+      <div class="stat-lbl">Caregivers</div>
+    </div>
+    <div class="stat a">
+      <div class="stat-val" id="s-emergency">—</div>
+      <div class="stat-lbl">Emergency Logs</div>
+    </div>
+  </div>
+
+  <!-- Emergency Logs -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">🚨 Recent Emergency Logs</div>
+      <span class="text-muted">Showing latest 5</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Date & Time</th><th>Patient</th><th>Type</th><th>Severity</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="dash-alert-body">
+          <tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recent Logins -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">🔑 Recent Admin Logins</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Admin</th><th>Role</th><th>Login Time</th><th>IP</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>System Admin</strong></td>
+            <td><span class="badge b-red">Super Admin</span></td>
+            <td>25 Feb · 10:35 AM</td>
+            <td>192.168.1.1</td>
+            <td><span class="badge b-green">Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Dr. Priya Menon</strong></td>
+            <td><span class="badge b-blue">Admin</span></td>
+            <td>24 Feb · 09:12 AM</td>
+            <td>192.168.1.14</td>
+            <td><span class="badge b-gray">Logged Out</span></td>
+          </tr>
+          <tr>
+            <td><strong>James Okafor</strong></td>
+            <td><span class="badge b-blue">Admin</span></td>
+            <td>23 Feb · 03:44 PM</td>
+            <td>10.0.0.22</td>
+            <td><span class="badge b-gray">Logged Out</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════ MANAGE USERS ════ -->
+<div class="page" id="tab-users">
+<div class="wrap">
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">👥 All Users</div>
+      <button class="btn btn-primary" onclick="openAddUser()">＋ Add User</button>
+    </div>
+    <div class="tbl-wrap">
+      <table id="users-table">
+        <thead><tr><th>User ID</th><th>Name</th><th>Role</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="users-body">
+          <tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════ ALERTS ════ -->
+<div class="page" id="tab-alerts">
+<div class="wrap">
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">🚨 All Emergency Alerts</div>
+      <span class="badge b-red" id="open-count">— Open</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Date & Time</th><th>Patient</th><th>Type</th><th>Severity</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="alerts-body">
+          <tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════ SYSTEM ════ -->
+<div class="page" id="tab-system">
+<div class="wrap">
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">⚙️ System Status</div>
+      <div class="status-bar"><div class="s-dot"></div> All Systems Operational</div>
+    </div>
+    <div class="card-body">
+      <table>
+        <thead><tr><th>Component</th><th>Status</th><th>Details</th></tr></thead>
+        <tbody id="system-body">
+          <tr><td colspan="3" style="text-align:center;color:#9ca3af;padding:20px;">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════ ADD / EDIT USER MODAL ════ -->
+<div class="modal-bg" id="modal-add" onclick="closeModal()">
+<div class="modal" onclick="event.stopPropagation()">
+  <div class="modal-head">
+    <div class="modal-title" id="modal-heading">➕ Add New User</div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="f-db-id"/>
+    <div class="form-grid">
+      <div class="field full">
+        <label>Full Name</label>
+        <input type="text" id="f-name" placeholder="e.g. Ramesh Sharma"/>
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" id="f-phone" placeholder="+91 98765 43210"/>
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select id="f-role">
+          <option value="Elderly">Elderly</option>
+          <option value="Caregiver">Caregiver</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="f-status">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveUser()">✓ Add User</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════
+   AUTH GUARD — redirect to login if no session
+══════════════════════════════════════════════ */
+(async () => {
+  try {
+    const res = await fetch('/api/me', { credentials: 'include' });
+    if (!res.ok) { window.location.href = '/'; return; }
+    const d = await res.json();
+    document.getElementById('adminName').textContent = d.fullName || 'Super Admin';
+  } catch {
+    window.location.href = '/';
+  }
+})();
+
+/* ══════════════════════════════════════════════
+   LIVE CLOCK
+══════════════════════════════════════════════ */
+function tickClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const ss = String(now.getSeconds()).padStart(2, '0');
+  document.getElementById('liveClock').textContent = hh + ':' + mm + ':' + ss;
+}
+tickClock();
+setInterval(tickClock, 1000);
+
+/* ══════════════════════════════════════════════
+   LOGOUT
+══════════════════════════════════════════════ */
+async function logout() {
+  await fetch('/api/logout', { credentials: 'include' });
+  window.location.href = '/';
+}
+
+/* ══════════════════════════════════════════════
+   TABS
+══════════════════════════════════════════════ */
+function showTab(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'dashboard') loadDashboard();
+  if (id === 'users')     loadUsers();
+  if (id === 'alerts')    loadAlerts();
+  if (id === 'system')    loadSystem();
+}
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+/* ══════════════════════════════════════════════
+   API HELPER
+══════════════════════════════════════════════ */
+async function api(url, opts = {}) {
+  const res = await fetch(url, {
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+    ...opts
+  });
+  if (res.status === 401) { window.location.href = '/'; return null; }
+  return res.json();
+}
+
+/* ══════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════ */
+function fmtDate(str) {
+  if (!str) return '—';
+  const d = new Date(str);
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) +
+         ' · ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ══════════════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════════════ */
+async function loadDashboard() {
+  const [stats, alertsData] = await Promise.all([
+    api('/api/dashboard/stats'),
+    api('/api/alerts')
+  ]);
+
+  if (stats) {
+    document.getElementById('s-total').textContent     = stats.totalUsers;
+    document.getElementById('s-elderly').textContent   = stats.elderly;
+    document.getElementById('s-caregivers').textContent = stats.caregivers;
+    document.getElementById('s-emergency').textContent = stats.emergencyLogs;
+  }
+
+  if (alertsData && alertsData.data) {
+    const rows = alertsData.data.slice(0, 5).map(a => alertRow(a, true)).join('');
+    document.getElementById('dash-alert-body').innerHTML = rows || '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No alerts</td></tr>';
+  }
+}
+
+/* ══════════════════════════════════════════════
+   ALERTS
+══════════════════════════════════════════════ */
+async function loadAlerts() {
+  const data = await api('/api/alerts');
+  if (!data) return;
+  const alerts = data.data || [];
+  const open = alerts.filter(a => a.status === 'Open').length;
+  document.getElementById('open-count').textContent = open + ' Open';
+  const body = document.getElementById('alerts-body');
+  body.innerHTML = alerts.map(a => alertRow(a, false)).join('') ||
+    '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No alerts</td></tr>';
+}
+
+function alertRow(a, compact) {
+  const sevClass = { Critical: 'b-red', Warning: 'b-amber', Low: 'b-gray' }[a.severity] || 'b-gray';
+  const stClass  = a.status === 'Resolved' ? 'b-green' : 'b-amber';
+  const action   = a.status === 'Open'
+    ? `<button class="btn btn-ghost btn-sm" onclick="resolveAlert(${a.id}, this)">Resolve</button>`
+    : '—';
+  return `<tr>
+    <td>${fmtDate(a.created_at)}</td>
+    <td><strong>${esc(a.patient_name)}</strong></td>
+    <td>${esc(a.type)}</td>
+    <td><span class="badge ${sevClass}">${esc(a.severity)}</span></td>
+    <td><span class="badge ${stClass}">${esc(a.status)}</span></td>
+    <td>${action}</td>
+  </tr>`;
+}
+
+async function resolveAlert(id, btn) {
+  const data = await api('/api/alerts/' + id + '/resolve', { method: 'PUT' });
+  if (!data || !data.success) { toast('❌ Could not resolve alert'); return; }
+  toast('✅ Alert marked as resolved');
+  // update both tables if visible
+  loadAlerts();
+  loadDashboard();
+}
+
+/* ══════════════════════════════════════════════
+   USERS
+══════════════════════════════════════════════ */
+async function loadUsers() {
+  const data = await api('/api/users');
+  if (!data) return;
+  const users = data.data || [];
+  const roleClass = { Elderly: 'b-blue', Caregiver: 'b-green', Admin: 'b-red' };
+  const body = document.getElementById('users-body');
+  body.innerHTML = users.map(u => `<tr>
+    <td><code>${esc(u.user_id)}</code></td>
+    <td><strong>${esc(u.name)}</strong></td>
+    <td><span class="badge ${roleClass[u.role] || 'b-gray'}">${esc(u.role)}</span></td>
+    <td>${esc(u.phone)}</td>
+    <td><span class="badge ${u.status === 'Active' ? 'b-green' : 'b-amber'}">${esc(u.status)}</span></td>
+    <td style="display:flex;gap:6px;">
+      <button class="btn btn-ghost btn-sm" onclick='openEditUser(${JSON.stringify(u)})'>Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id}, '${esc(u.name)}')">Delete</button>
+    </td>
+  </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No users found</td></tr>';
+}
+
+// Modal – Add
+function openAddUser() {
+  document.getElementById('modal-heading').textContent = '➕ Add New User';
+  document.getElementById('modal-save-btn').textContent = '✓ Add User';
+  document.getElementById('f-db-id').value = '';
+  document.getElementById('f-name').value  = '';
+  document.getElementById('f-phone').value = '';
+  document.getElementById('f-role').value  = 'Elderly';
+  document.getElementById('f-status').value = 'Active';
+  document.getElementById('modal-add').classList.add('show');
+}
+
+// Modal – Edit
+function openEditUser(u) {
+  document.getElementById('modal-heading').textContent = '✏️ Edit User';
+  document.getElementById('modal-save-btn').textContent = '✓ Save Changes';
+  document.getElementById('f-db-id').value  = u.id;
+  document.getElementById('f-name').value   = u.name;
+  document.getElementById('f-phone').value  = u.phone;
+  document.getElementById('f-role').value   = u.role;
+  document.getElementById('f-status').value = u.status;
+  document.getElementById('modal-add').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal-add').classList.remove('show');
+}
+
+async function saveUser() {
+  const id    = document.getElementById('f-db-id').value;
+  const name  = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const role  = document.getElementById('f-role').value;
+  const status = document.getElementById('f-status').value;
+
+  if (!name) { toast('⚠️ Name is required'); return; }
+
+  const body = JSON.stringify({ name, phone, role, status });
+  let data;
+  if (id) {
+    data = await api('/api/users/' + id, { method: 'PUT', body });
+  } else {
+    data = await api('/api/users', { method: 'POST', body });
+  }
+
+  if (!data || !data.success) { toast('❌ ' + (data?.message || 'Save failed')); return; }
+
+  toast(id ? '✏️ User updated' : '✅ User added');
+  closeModal();
+  loadUsers();
+  loadDashboard(); // refresh stat counts
+}
+
+async function deleteUser(id, name) {
+  if (!confirm('Delete ' + name + '?')) return;
+  const data = await api('/api/users/' + id, { method: 'DELETE' });
+  if (!data || !data.success) { toast('❌ Delete failed'); return; }
+  toast('🗑 User removed');
+  loadUsers();
+  loadDashboard();
+}
+
+/* ══════════════════════════════════════════════
+   SYSTEM STATUS
+══════════════════════════════════════════════ */
+async function loadSystem() {
+  const data = await api('/api/system/status');
+  if (!data) return;
+  const dot = s => s === 'Online' || s === 'Valid' || s === 'Done'
+    ? '<span class="badge b-green">' + esc(s) + '</span>'
+    : '<span class="badge b-red">'   + esc(s) + '</span>';
+
+  document.getElementById('system-body').innerHTML = `
+    <tr><td><strong>🖥 Server</strong></td><td>${dot(data.server)}</td><td>Operational</td></tr>
+    <tr><td><strong>🗄 Database</strong></td><td>${dot(data.database)}</td><td>${esc(data.database)} · Connection pool active</td></tr>
+    <tr><td><strong>🤖 AI Engine</strong></td><td>${dot(data.ai_engine)}</td><td>Running · ${esc(data.version)}</td></tr>
+    <tr><td><strong>🔒 SSL/TLS</strong></td><td>${dot(data.ssl)}</td><td>TLS 1.3</td></tr>
+    <tr><td><strong>⬆ Uptime</strong></td><td><span class="badge b-blue">${esc(data.uptime)}</span></td><td>Since last restart</td></tr>
+    <tr><td><strong>🌐 Version</strong></td><td><span class="badge b-gray">Stable</span></td><td>${esc(data.version)}</td></tr>
+  `;
+}
+
+/* ══════════════════════════════════════════════
+   INITIAL LOAD
+══════════════════════════════════════════════ */
+loadDashboard();
+</script>
+</body>
+</html>

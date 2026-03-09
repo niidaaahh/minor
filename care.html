@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care & Safety - AI Assisted Care for Elderly</title>
+    <style>
+        /* ============================================
+           GLOBAL RESET & BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Soft, calming pastel gradient background */
+            background: linear-gradient(135deg, #e8f5e9 0%, #e1f5fe 50%, #f3e5f5 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           MAIN CONTAINER
+           ============================================ */
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           HEADER SECTION
+           ============================================ */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.6rem;
+            color: #5a6c7d;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           SAFETY CARDS SECTION
+           ============================================ */
+        .safety-container {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            margin-bottom: 50px;
+        }
+
+        .safety-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 45px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .safety-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Individual card color accents - calming colors */
+        .safety-card.emergency {
+            border-left: 6px solid #ef5350;
+        }
+
+        .safety-card.caregiver {
+            border-left: 6px solid #42a5f5;
+        }
+
+        .safety-card.privacy {
+            border-left: 6px solid #66bb6a;
+        }
+
+        .safety-card.trust {
+            border-left: 6px solid #ec407a;
+        }
+
+        /* ============================================
+           CARD HEADER
+           ============================================ */
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .card-icon {
+            font-size: 3.8rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 1.9rem;
+            color: #2c3e50;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ============================================
+           CARD CONTENT
+           ============================================ */
+        .card-content {
+            margin-left: 85px;
+        }
+
+        .card-content p {
+            font-size: 1.4rem;
+            color: #5a6c7d;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .card-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Bullet points for clarity */
+        .card-content ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .card-content ul li {
+            font-size: 1.4rem;
+            color: #5a6c7d;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .card-content ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #66bb6a;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* Highlighted text for emphasis */
+        .highlight {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           NAVIGATION BUTTONS
+           ============================================ */
+        .navigation-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .btn {
+            padding: 20px 45px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        /* Back to Home button */
+        .btn-home {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 3px solid #90caf9;
+        }
+
+        .btn-home:hover {
+            background: #bbdefb;
+            border-color: #42a5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(25, 118, 210, 0.2);
+        }
+
+        /* Get Started button */
+        .btn-get-started {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+        }
+
+        .btn-get-started:hover {
+            background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(67, 160, 71, 0.4);
+        }
+
+        /* Focus states for accessibility */
+        .btn:focus {
+            outline: 3px solid #42a5f5;
+            outline-offset: 3px;
+        }
+
+        /* ============================================
+           REASSURANCE BANNER
+           ============================================ */
+        .reassurance-banner {
+            text-align: center;
+            margin-top: 50px;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .reassurance-banner p {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            line-height: 1.9;
+            font-weight: 500;
+        }
+
+        .reassurance-banner .heart-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN FOR TABLETS
+           ============================================ */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .safety-card {
+                padding: 35px 30px;
+            }
+
+            .card-icon {
+                font-size: 3.2rem;
+                margin-right: 15px;
+            }
+
+            .card-title {
+                font-size: 1.6rem;
+            }
+
+            .card-content {
+                margin-left: 65px;
+            }
+
+            .card-content p,
+            .card-content ul li {
+                font-size: 1.25rem;
+            }
+
+            .btn {
+                font-size: 1.2rem;
+                padding: 18px 35px;
+                min-width: 180px;
+            }
+
+            .reassurance-banner p {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN FOR MOBILE
+           ============================================ */
+        @media (max-width: 480px) {
+            body {
+                padding: 30px 15px;
+            }
+
+            .page-title {
+                font-size: 1.9rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.15rem;
+            }
+
+            .safety-container {
+                gap: 25px;
+            }
+
+            .safety-card {
+                padding: 30px 20px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+
+            .card-icon {
+                font-size: 2.8rem;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .card-content {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+
+            .card-content p,
+            .card-content ul li {
+                font-size: 1.2rem;
+            }
+
+            .card-content ul li {
+                padding-left: 25px;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .reassurance-banner {
+                padding: 25px 20px;
+            }
+
+            .reassurance-banner p {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ============================================
+           ACCESSIBILITY ENHANCEMENTS
+           ============================================ */
+        *:focus-visible {
+            outline: 3px solid #42a5f5;
+            outline-offset: 3px;
+        }
+
+        ::selection {
+            background: #bbdefb;
+            color: #1565c0;
+        }
+
+        /* Smooth text rendering */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         MAIN CONTAINER
+         ============================================ -->
+    <div class="container">
+        
+        <!-- ============================================
+             HEADER SECTION
+             ============================================ -->
+        <header class="header">
+            <h1 class="page-title">Care & Safety</h1>
+            <p class="page-subtitle">Your safety, privacy, and well-being come first</p>
+        </header>
+
+        <!-- ============================================
+             SAFETY & CARE CARDS
+             ============================================ -->
+        <div class="safety-container">
+            
+            <!-- SECTION 1: Emergency Support -->
+            <div class="safety-card emergency">
+                <div class="card-header">
+                    <div class="card-icon">🚨</div>
+                    <h2 class="card-title">Emergency Support</h2>
+                </div>
+                <div class="card-content">
+                    <p>
+                        When you press the <span class="highlight">Emergency Help button</span>, 
+                        your caregiver is immediately notified.
+                    </p>
+                    <p>
+                        Help is provided quickly so you are never alone in an emergency. 
+                        Your safety is our top priority.
+                    </p>
+                    <ul>
+                        <li>Instant alerts sent to your caregiver or family member</li>
+                        <li>Quick response to ensure your well-being</li>
+                        <li>Available 24 hours a day, 7 days a week</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Caregiver Involvement -->
+            <div class="safety-card caregiver">
+                <div class="card-header">
+                    <div class="card-icon">👨‍⚕️</div>
+                    <h2 class="card-title">Caregiver Involvement</h2>
+                </div>
+                <div class="card-content">
+                    <p>
+                        <span class="highlight">Caregivers</span> are trusted family members, 
+                        friends, or healthcare professionals who help support you.
+                    </p>
+                    <p>
+                        They can view your medication reminders, appointment alerts, and emergency 
+                        notifications to provide the best care possible.
+                    </p>
+                    <ul>
+                        <li>Caregivers monitor your health reminders</li>
+                        <li>They are alerted if you need help</li>
+                        <li>You decide who can be your caregiver</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Data Privacy & Security -->
+            <div class="safety-card privacy">
+                <div class="card-header">
+                    <div class="card-icon">🔒</div>
+                    <h2 class="card-title">Data Privacy & Security</h2>
+                </div>
+                <div class="card-content">
+                    <p>
+                        Your <span class="highlight">personal information is protected</span> 
+                        and kept safe at all times.
+                    </p>
+                    <p>
+                        Only people you trust, like your caregivers and authorized administrators, 
+                        can access your information.
+                    </p>
+                    <ul>
+                        <li>Your health information stays private</li>
+                        <li>We never share your data without your permission</li>
+                        <li>Strong security keeps your information safe</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 4: Trust & Reassurance -->
+            <div class="safety-card trust">
+                <div class="card-header">
+                    <div class="card-icon">❤️</div>
+                    <h2 class="card-title">Trust & Reassurance</h2>
+                </div>
+                <div class="card-content">
+                    <p>
+                        This system is designed to <span class="highlight">support you</span> 
+                        and help you live independently, not replace human care.
+                    </p>
+                    <p>
+                        We believe in enhancing the care you receive from loved ones and healthcare 
+                        professionals, making daily life easier and safer for you.
+                    </p>
+                    <p>
+                        <span class="highlight">You are always in control</span> of your health 
+                        and your care choices.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================
+             NAVIGATION BUTTONS
+             ============================================ -->
+        <div class="navigation-buttons">
+            <a href="index.html" class="btn btn-home">Back to Home</a>
+            <a href="login.html" class="btn btn-get-started">Get Started</a>
+        </div>
+
+        <!-- ============================================
+             REASSURANCE BANNER
+             ============================================ -->
+        <div class="reassurance-banner">
+            <span class="heart-icon">💙</span>
+            <p>
+                We are committed to providing care that respects your dignity, 
+                independence, and peace of mind.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT FOR ACCESSIBILITY
+         ============================================ -->
+    <script>
+        /**
+         * Scroll to top on page load
+         * Ensures users start at the beginning of the page
+         */
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
+
+        /**
+         * Enhanced keyboard navigation
+         * Allows Enter and Space keys to activate buttons
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+        });
+
+        /**
+         * Smooth scroll behavior for better user experience
+         */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

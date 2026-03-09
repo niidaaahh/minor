@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Care & Safety — Alerts</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --sky:#eaf3fc;--sky2:#f2eefb;--lavender:#e4ddf8;--lav-mid:#c4b8ee;
+  --lav-deep:#7c6abf;--lav-dark:#4b3d8f;--blue-deep:#3a78c9;
+  --rose-lt:#fde8e8;--rose-mid:#f5b8b8;--rose-deep:#c94444;
+  --amber-lt:#fef4e0;--amber-mid:#f0cc80;--amber-deep:#c47a18;
+  --yellow-lt:#fdfae8;--yellow-mid:#e8d880;--yellow-deep:#a89010;
+  --white:#ffffff;--text:#252048;--text-mid:#4e4875;--text-soft:#9590b5;
+  --border:rgba(196,184,238,.4);--shadow-sm:0 2px 12px rgba(90,70,160,.07);
+  --shadow-md:0 6px 28px rgba(90,70,160,.12);--r:18px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;
+  background:radial-gradient(ellipse 80% 60% at 10% 0%,rgba(196,184,238,.32) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%,rgba(146,189,232,.28) 0%,transparent 60%),
+    linear-gradient(160deg,var(--sky2) 0%,var(--sky) 100%);
+  color:var(--text);}
+
+header{background:rgba(255,255,255,.72);backdrop-filter:blur(20px);border-bottom:1.5px solid var(--border);
+  position:sticky;top:0;z-index:100;height:64px;padding:0 clamp(16px,5vw,48px);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.brand-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--lav-deep),var(--blue-deep));
+  display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 3px 10px rgba(90,70,160,.22);}
+.brand-name{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--text);}
+.brand-name span{color:var(--lav-deep);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-nav{padding:7px 16px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.81rem;font-weight:600;
+  cursor:pointer;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.btn-back{background:var(--lavender);border:1.5px solid var(--lav-mid);color:var(--lav-deep);}
+.btn-back:hover{background:var(--lav-mid);transform:translateY(-1px);}
+.btn-logout{background:var(--white);border:1.5px solid var(--lav-mid);color:var(--text-mid);}
+.btn-logout:hover{background:var(--lavender);color:var(--lav-dark);transform:translateY(-1px);}
+
+.container{max-width:760px;margin:0 auto;padding:clamp(28px,5vw,52px) clamp(14px,4vw,24px) 64px;}
+
+.page-intro{margin-bottom:30px;animation:fadeSlide .5s ease both;}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;color:var(--lav-deep);background:var(--lavender);
+  border:1.5px solid var(--lav-mid);padding:4px 13px;border-radius:30px;margin-bottom:12px;}
+.page-intro h1{font-family:'Fraunces',serif;font-size:clamp(1.45rem,3.5vw,1.95rem);font-weight:600;margin-bottom:5px;}
+.page-intro p{font-size:.88rem;color:var(--text-soft);}
+
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+/* SUMMARY CHIPS */
+.summary-chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;animation:fadeSlide .5s ease .08s both;}
+.chip{padding:7px 16px;border-radius:11px;font-size:.8rem;font-weight:700;
+  display:inline-flex;align-items:center;gap:6px;}
+.chip-red{background:var(--rose-lt);color:var(--rose-deep);border:1.5px solid var(--rose-mid);}
+.chip-orange{background:var(--amber-lt);color:var(--amber-deep);border:1.5px solid var(--amber-mid);}
+.chip-yellow{background:var(--yellow-lt);color:var(--yellow-deep);border:1.5px solid var(--yellow-mid);}
+
+/* SECTION LABEL */
+.section-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700;
+  color:var(--text-soft);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ALERT GROUPS */
+.alert-group{margin-bottom:30px;}
+.alert-group:nth-child(3){animation:fadeUp .5s ease .12s both;}
+.alert-group:nth-child(4){animation:fadeUp .5s ease .22s both;}
+.alert-group:nth-child(5){animation:fadeUp .5s ease .32s both;}
+
+/* ALERT CARD */
+.alert-card{
+  border-radius:var(--r);
+  border-left:5px solid transparent;
+  padding:20px 22px;
+  margin-bottom:14px;
+  display:flex;align-items:flex-start;gap:16px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .22s cubic-bezier(.22,.68,0,1.2),box-shadow .22s ease;
+  position:relative;overflow:hidden;
+}
+.alert-card:last-child{margin-bottom:0;}
+.alert-card:hover{transform:translateX(6px);box-shadow:var(--shadow-md);}
+
+.alert-card.emergency{
+  background:rgba(253,232,232,.80);
+  border-color:var(--rose-deep);
+  border-top:1px solid var(--rose-mid);
+  border-right:1px solid var(--rose-mid);
+  border-bottom:1px solid var(--rose-mid);
+}
+.alert-card.medicine{
+  background:rgba(254,244,224,.80);
+  border-color:var(--amber-deep);
+  border-top:1px solid var(--amber-mid);
+  border-right:1px solid var(--amber-mid);
+  border-bottom:1px solid var(--amber-mid);
+}
+.alert-card.aiwarning{
+  background:rgba(253,250,232,.80);
+  border-color:var(--yellow-deep);
+  border-top:1px solid var(--yellow-mid);
+  border-right:1px solid var(--yellow-mid);
+  border-bottom:1px solid var(--yellow-mid);
+}
+
+.alert-icon{font-size:1.6rem;flex-shrink:0;line-height:1;margin-top:2px;}
+.alert-body{flex:1;}
+
+.alert-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:5px;flex-wrap:wrap;}
+.alert-title{font-size:.98rem;font-weight:700;color:var(--text);}
+.alert-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:20px;
+  font-size:.7rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
+.tag-red{background:var(--rose-lt);color:var(--rose-deep);}
+.tag-orange{background:var(--amber-lt);color:var(--amber-deep);}
+.tag-yellow{background:var(--yellow-lt);color:var(--yellow-deep);}
+
+.alert-desc{font-size:.85rem;color:var(--text-mid);line-height:1.62;margin-bottom:13px;}
+.alert-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.alert-time{font-size:.74rem;color:var(--text-soft);display:flex;align-items:center;gap:5px;}
+
+.alert-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.act-btn{padding:6px 15px;border-radius:9px;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:700;
+  transition:all .2s;display:inline-flex;align-items:center;gap:4px;}
+.act-primary-red{background:var(--rose-deep);color:#fff;}
+.act-primary-red:hover{background:#a83030;transform:translateY(-1px);}
+.act-primary-orange{background:var(--amber-deep);color:#fff;}
+.act-primary-orange:hover{background:#a06010;transform:translateY(-1px);}
+.act-primary-yellow{background:var(--yellow-deep);color:#fff;}
+.act-primary-yellow:hover{background:#887800;transform:translateY(-1px);}
+.act-ghost{background:rgba(255,255,255,.75);border:1.5px solid currentColor;
+  padding:5px 13px;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  font-size:.76rem;font-weight:700;transition:all .2s;}
+.act-ghost.red{color:var(--rose-deep);}
+.act-ghost.orange{color:var(--amber-deep);}
+.act-ghost.yellow{color:var(--yellow-deep);}
+.act-ghost:hover{background:rgba(255,255,255,.97);transform:translateY(-1px);}
+
+@media(max-width:580px){
+  .btn-logout{display:none;}
+  .alert-card{flex-direction:column;gap:10px;}
+  .alert-header{flex-direction:column;align-items:flex-start;gap:6px;}
+  .summary-chips{gap:8px;}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="caregiver-home.html">
+    <div class="brand-icon">🏥</div>
+    <span class="brand-name">Care &amp; <span>Safety</span></span>
+  </a>
+  <div class="nav-right">
+    <a class="btn-nav btn-back" href="caregiver-home.html">← Back</a>
+    <a class="btn-nav btn-logout" href="#">Logout</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-intro">
+    <div class="eyebrow">🔔 Alert Centre</div>
+    <h1>Alerts &amp; Reminders</h1>
+    <p>Active notifications for Ramesh Sharma — Wednesday, 25 February 2026</p>
+  </div>
+
+  <div class="summary-chips">
+    <span class="chip chip-red">🚨 2 Emergency</span>
+    <span class="chip chip-orange">💊 2 Missed Medicine</span>
+    <span class="chip chip-yellow">🤖 1 AI Warning</span>
+  </div>
+
+  <!-- EMERGENCY -->
+  <div class="alert-group">
+    <div class="section-label">🚨 Emergency Alerts</div>
+
+    <div class="alert-card emergency">
+      <div class="alert-icon">💓</div>
+      <div class="alert-body">
+        <div class="alert-header">
+          <div class="alert-title">Critical Blood Pressure Detected</div>
+          <span class="alert-tag tag-red">🔴 Emergency</span>
+        </div>
+        <p class="alert-desc">
+          Blood pressure recorded at <strong>148/94 mmHg</strong> — above the safe threshold. This was observed this morning alongside reported dizziness. Please check on Ramesh and contact his doctor if the reading remains elevated.
+        </p>
+        <div class="alert-footer">
+          <span class="alert-time">🕐 Today, 8:45 AM</span>
+          <div class="alert-actions">
+            <button class="act-btn act-primary-red" onclick="alert('Doctor notified.')">📞 Call Doctor</button>
+            <button class="act-btn act-ghost red" onclick="this.textContent='✓ Acknowledged'">Acknowledge</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-card emergency">
+      <div class="alert-icon">💔</div>
+      <div class="alert-body">
+        <div class="alert-header">
+          <div class="alert-title">Elevated Heart Rate — Needs Attention</div>
+          <span class="alert-tag tag-red">🔴 Emergency</span>
+        </div>
+        <p class="alert-desc">
+          Resting heart rate measured at <strong>90 bpm</strong> — higher than Ramesh's usual range of 70–76 bpm. This was recorded on the same morning as elevated BP. Combined readings suggest possible stress or cardiac irregularity. Immediate attention is advised.
+        </p>
+        <div class="alert-footer">
+          <span class="alert-time">🕐 Today, 8:45 AM</span>
+          <div class="alert-actions">
+            <button class="act-btn act-primary-red" onclick="alert('Emergency alert sent.')">🚨 Alert Family</button>
+            <button class="act-btn act-ghost red" onclick="this.textContent='✓ Acknowledged'">Acknowledge</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSED MEDICINE -->
+  <div class="alert-group">
+    <div class="section-label">💊 Missed Medicine Alerts</div>
+
+    <div class="alert-card medicine">
+      <div class="alert-icon">💊</div>
+      <div class="alert-body">
+        <div class="alert-header">
+          <div class="alert-title">Evening Metformin 500mg Not Taken</div>
+          <span class="alert-tag tag-orange">🟠 Missed Dose</span>
+        </div>
+        <p class="alert-desc">
+          Metformin 500mg scheduled for <strong>8:00 PM on 25 Feb</strong> was not taken. This medicine is important for managing blood sugar levels. Smart dispenser shows no activity. Please remind Ramesh or administer the dose if still within the safe window.
+        </p>
+        <div class="alert-footer">
+          <span class="alert-time">🕐 Today, 8:00 PM</span>
+          <div class="alert-actions">
+            <button class="act-btn act-primary-orange" onclick="this.textContent='✓ Marked Given'">Mark as Given</button>
+            <button class="act-btn act-ghost orange" onclick="this.textContent='✓ Snoozed'">Snooze 1hr</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert-card medicine">
+      <div class="alert-icon">⚕️</div>
+      <div class="alert-body">
+        <div class="alert-header">
+          <div class="alert-title">Atorvastatin 10mg Not Taken (23 Feb)</div>
+          <span class="alert-tag tag-orange">🟠 Missed Dose</span>
+        </div>
+        <p class="alert-desc">
+          The nightly dose of Atorvastatin 10mg was missed on <strong>23 February at 9:00 PM</strong>. This is the second missed dose this month. Atorvastatin helps control cholesterol levels; consistent dosing is important for Ramesh's heart health.
+        </p>
+        <div class="alert-footer">
+          <span class="alert-time">🕐 23 Feb 2026, 9:00 PM</span>
+          <div class="alert-actions">
+            <button class="act-btn act-primary-orange" onclick="this.textContent='✓ Logged'">Log Missed Dose</button>
+            <button class="act-btn act-ghost orange" onclick="this.textContent='✓ Acknowledged'">Acknowledge</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI WARNING -->
+  <div class="alert-group">
+    <div class="section-label">🤖 AI Health Warning</div>
+
+    <div class="alert-card aiwarning">
+      <div class="alert-icon">🤖</div>
+      <div class="alert-body">
+        <div class="alert-header">
+          <div class="alert-title">Gradual Rise in Blood Pressure Over 5 Days</div>
+          <span class="alert-tag tag-yellow">🟡 AI Warning</span>
+        </div>
+        <p class="alert-desc">
+          Care &amp; Safety AI has detected a <strong>steady upward trend in Ramesh's blood pressure</strong> over the past 5 days — rising from 122/78 on 21 Feb to 148/94 on 25 Feb. Combined with 3 missed medication doses this week, this pattern may indicate worsening hypertension. Consider scheduling a doctor's appointment soon and ensuring consistent medicine intake.
+        </p>
+        <div class="alert-footer">
+          <span class="alert-time">🕐 Today, 10:00 AM · AI Generated</span>
+          <div class="alert-actions">
+            <button class="act-btn act-primary-yellow" onclick="alert('Doctor appointment request sent.')">📅 Book Appointment</button>
+            <button class="act-btn act-ghost yellow" onclick="this.textContent='✓ Reviewed'">Mark Reviewed</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

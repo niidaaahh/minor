@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CareAdmin — User Management</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --sb-bg:#0f1623;--sb-border:#1e2a3d;--sb-text:#8a9ab8;--sb-text-act:#e2e8f4;
+  --sb-hover:#1a2437;--sb-accent:#3b82f6;--sb-w:240px;
+  --bg:#f0f4f9;--bg-card:#ffffff;--border:#e2e8f2;--border-dark:#c8d3e4;
+  --text:#0f1a2e;--text-mid:#3d4f6e;--text-soft:#7a8ea8;--text-muted:#a8b8cc;
+  --blue:#3b82f6;--blue-lt:#eff6ff;--blue-mid:#93c5fd;
+  --teal:#0d9488;--teal-lt:#f0fdfa;--green:#16a34a;--green-lt:#f0fdf4;
+  --amber:#d97706;--amber-lt:#fffbeb;--red:#dc2626;--red-lt:#fef2f2;
+  --slate:#475569;--violet:#7c3aed;--violet-lt:#f5f3ff;
+  --sh-sm:0 1px 4px rgba(15,26,46,.06),0 2px 8px rgba(15,26,46,.04);
+  --sh-md:0 4px 16px rgba(15,26,46,.08),0 1px 4px rgba(15,26,46,.04);
+  --r:10px;--r-sm:7px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);}
+a{text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sb-w);background:var(--sb-bg);border-right:1px solid var(--sb-border);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;
+  transition:transform .28s ease;overflow-y:auto;}
+.sb-brand{padding:24px 20px 20px;border-bottom:1px solid var(--sb-border);display:flex;align-items:center;gap:11px;}
+.sb-logo{width:36px;height:36px;background:var(--blue);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+  box-shadow:0 0 0 2px rgba(59,130,246,.25);}
+.sb-name{font-size:.95rem;font-weight:700;color:#e2e8f4;letter-spacing:-.01em;line-height:1.1;}
+.sb-name small{display:block;font-size:.65rem;font-weight:400;color:var(--sb-text);
+  letter-spacing:.08em;text-transform:uppercase;margin-top:2px;}
+.sb-section-label{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;
+  color:#3d5278;padding:20px 20px 8px;}
+.sb-nav{padding:10px 10px;flex:1;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-sm);
+  color:var(--sb-text);font-size:.875rem;font-weight:500;cursor:pointer;transition:background .15s,color .15s;
+  border:none;background:none;width:100%;text-align:left;}
+.sb-item:hover{background:var(--sb-hover);color:#c8d8f0;}
+.sb-item.active{background:rgba(59,130,246,.15);color:var(--sb-text-act);}
+.sb-item.active .sb-item-icon{color:var(--sb-accent);}
+.sb-item-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0;}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.65rem;
+  font-family:'IBM Plex Mono',monospace;padding:1px 6px;border-radius:20px;font-weight:600;}
+.sb-footer{padding:16px 14px;border-top:1px solid var(--sb-border);}
+.sb-admin-row{display:flex;align-items:center;gap:10px;}
+.sb-admin-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1e3a5f,#3b5fa0);
+  display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;
+  color:#93c5fd;border:1.5px solid #1e2a3d;flex-shrink:0;}
+.sb-admin-name{font-size:.8rem;font-weight:600;color:#c8d8f0;}
+.sb-admin-role{font-size:.65rem;color:#3d5278;text-transform:uppercase;letter-spacing:.08em;}
+
+/* TOPBAR */
+.topbar{display:none;align-items:center;justify-content:space-between;padding:12px 18px;
+  background:var(--sb-bg);border-bottom:1px solid var(--sb-border);position:sticky;top:0;z-index:100;}
+.topbar-brand{font-size:.95rem;font-weight:700;color:#e2e8f4;}
+.hamburger{background:none;border:none;color:var(--sb-text);font-size:1.3rem;cursor:pointer;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;}
+.overlay.show{display:block;}
+
+.main{margin-left:var(--sb-w);flex:1;min-width:0;}
+.content{padding:clamp(20px,3vw,36px);}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:28px;animation:fadeDown .45s ease both;}
+.page-header h1{font-size:1.45rem;font-weight:700;color:var(--text);letter-spacing:-.02em;line-height:1.2;}
+.page-header p{font-size:.82rem;color:var(--text-soft);margin-top:3px;}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTION LABEL */
+.section-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text-soft);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* CARD BLOCK */
+.card-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--sh-sm);overflow:hidden;margin-bottom:24px;animation:fadeUp .5s ease .1s both;}
+.card-block:nth-child(2){animation-delay:.18s;}
+.card-block:nth-child(3){animation-delay:.26s;}
+.cb-header{padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.cb-title{font-size:.88rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
+.cb-count{font-size:.72rem;color:var(--text-soft);font-family:'IBM Plex Mono',monospace;
+  background:var(--bg);padding:3px 9px;border-radius:20px;border:1px solid var(--border);}
+
+/* ADD USER FORM */
+.form-wrap{padding:22px 24px;}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px 20px;margin-bottom:20px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:.75rem;font-weight:600;color:var(--text-mid);text-transform:uppercase;letter-spacing:.08em;}
+.form-input,.form-select{
+  width:100%;padding:9px 13px;border:1.5px solid var(--border-dark);
+  border-radius:var(--r-sm);background:var(--bg);color:var(--text);
+  font-family:'IBM Plex Sans',sans-serif;font-size:.875rem;
+  transition:border-color .18s,box-shadow .18s;outline:none;
+}
+.form-input:focus,.form-select:focus{
+  border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.12);background:var(--bg-card);
+}
+.form-input::placeholder{color:var(--text-muted);}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:var(--r-sm);border:none;font-family:'IBM Plex Sans',sans-serif;
+  font-size:.84rem;font-weight:600;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:#1d4ed8;box-shadow:0 4px 14px rgba(59,130,246,.35);transform:translateY(-1px);}
+.btn-secondary{background:var(--bg);border:1.5px solid var(--border-dark);color:var(--text-mid);}
+.btn-secondary:hover{background:#e8edf5;border-color:var(--blue);color:var(--blue);}
+.btn-danger{background:var(--red-lt);border:1.5px solid #fecaca;color:var(--red);}
+.btn-danger:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-success{background:var(--green-lt);border:1.5px solid #bbf7d0;color:var(--green);}
+.btn-success:hover{background:var(--green);color:#fff;border-color:var(--green);}
+.btn-amber{background:var(--amber-lt);border:1.5px solid #fde68a;color:var(--amber);}
+.btn-amber:hover{background:var(--amber);color:#fff;border-color:var(--amber);}
+.btn-slate{background:#f1f5f9;border:1.5px solid var(--border);color:var(--slate);}
+.btn-slate:hover{background:#e2e8f0;color:var(--text-mid);}
+.btn-sm{padding:5px 12px;font-size:.76rem;border-radius:6px;}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.84rem;}
+thead tr{background:#f7f9fc;}
+thead th{padding:10px 16px;text-align:left;font-size:.67rem;text-transform:uppercase;
+  letter-spacing:.1em;font-weight:700;color:var(--text-soft);white-space:nowrap;border-bottom:1px solid var(--border);}
+tbody tr{border-bottom:1px solid #f0f4f8;transition:background .12s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#f8fafd;}
+tbody td{padding:11px 16px;color:var(--text-mid);vertical-align:middle;}
+td strong{color:var(--text);font-weight:600;}
+.td-actions{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;
+  font-size:.7rem;font-weight:700;letter-spacing:.03em;white-space:nowrap;}
+.badge-green{background:var(--green-lt);color:var(--green);border:1px solid #bbf7d0;}
+.badge-blue{background:var(--blue-lt);color:var(--blue);border:1px solid #bfdbfe;}
+.badge-amber{background:var(--amber-lt);color:var(--amber);border:1px solid #fde68a;}
+.badge-red{background:var(--red-lt);color:var(--red);border:1px solid #fecaca;}
+.badge-slate{background:#f1f5f9;color:var(--slate);border:1px solid var(--border);}
+.badge-teal{background:var(--teal-lt);color:var(--teal);border:1px solid #99f6e4;}
+.badge-violet{background:var(--violet-lt);color:var(--violet);border:1px solid #ddd6fe;}
+
+/* APPROVAL CARDS */
+.approval-list{padding:18px 20px;display:flex;flex-direction:column;gap:14px;}
+.approval-card{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  transition:box-shadow .18s,border-color .18s;
+}
+.approval-card:hover{box-shadow:var(--sh-md);border-color:var(--border-dark);}
+.approval-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#dbeafe,#ede9fe);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  border:1.5px solid var(--border);flex-shrink:0;}
+.approval-info{flex:1;min-width:180px;}
+.approval-name{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:2px;}
+.approval-meta{font-size:.76rem;color:var(--text-soft);display:flex;gap:10px;flex-wrap:wrap;margin-top:3px;}
+.approval-meta span{display:flex;align-items:center;gap:4px;}
+.approval-actions{display:flex;gap:8px;flex-wrap:wrap;}
+
+/* TOGGLE */
+.toggle-wrap{display:flex;align-items:center;gap:8px;}
+.toggle{position:relative;width:36px;height:20px;cursor:pointer;}
+.toggle input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-slider{
+  position:absolute;inset:0;background:#cbd5e1;border-radius:20px;
+  transition:background .2s;
+}
+.toggle-slider::before{
+  content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;
+  background:#fff;border-radius:50%;transition:transform .2s;
+  box-shadow:0 1px 3px rgba(0,0,0,.15);
+}
+.toggle input:checked + .toggle-slider{background:var(--green);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(16px);}
+
+/* RESPONSIVE */
+@media(max-width:720px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .topbar{display:flex;}
+  .main{margin-left:0;}
+  .content{padding:18px 14px 32px;}
+  .td-actions{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo">🛡</div>
+      <div class="sb-name">CareAdmin<small>System Control Panel</small></div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section-label">Navigation</div>
+      <a class="sb-item" href="admin-dashboard.html"><span class="sb-item-icon">⊞</span> Dashboard</a>
+      <button class="sb-item active"><span class="sb-item-icon">👥</span> User Management</button>
+      <a class="sb-item" href="security.html"><span class="sb-item-icon">🔐</span> Security &amp; Access<span class="sb-badge">!</span></a>
+      <div class="sb-section-label">Account</div>
+      <button class="sb-item" onclick="alert('Logging out…')"><span class="sb-item-icon">⏻</span> Logout</button>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-admin-row">
+        <div class="sb-admin-av">SA</div>
+        <div>
+          <div class="sb-admin-name">System Admin</div>
+          <div class="sb-admin-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" onclick="openSidebar()">☰</button>
+      <span class="topbar-brand">🛡 CareAdmin</span>
+      <span style="width:28px"></span>
+    </div>
+
+    <div class="content">
+
+      <div class="page-header">
+        <div>
+          <h1>User Management</h1>
+          <p>Add, manage and control all user accounts on the platform</p>
+        </div>
+      </div>
+
+      <!-- ── SECTION 1: ADD USER FORM ─────────────────── -->
+      <div class="section-label">➕ Add New User</div>
+      <div class="card-block">
+        <div class="cb-header">
+          <div class="cb-title">👤 Register New User Account</div>
+        </div>
+        <div class="form-wrap">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input class="form-input" type="text" placeholder="e.g. Margaret Reynolds"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <select class="form-select">
+                <option value="">Select role…</option>
+                <option>Elderly User</option>
+                <option>Caregiver</option>
+                <option>Admin</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" type="email" placeholder="user@example.com"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input class="form-input" type="tel" placeholder="+91 98765 43210"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Temporary Password</label>
+              <input class="form-input" type="password" placeholder="Min. 8 characters"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Assign Caregiver (if Elderly)</label>
+              <select class="form-select">
+                <option value="">None / Not applicable</option>
+                <option>Aisha Sharma</option>
+                <option>Priya Menon</option>
+                <option>Ravi Nair</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="alert('User account created successfully.')">➕ Create Account</button>
+            <button class="btn btn-secondary">✕ Clear Form</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 2: EXISTING USERS ───────────────── -->
+      <div class="section-label">👥 Existing Users</div>
+      <div class="card-block">
+        <div class="cb-header">
+          <div class="cb-title">🗂 All Registered Users</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span class="cb-count">47 users total</span>
+            <input class="form-input" type="search" placeholder="Search users…" style="width:180px;padding:6px 11px;font-size:.8rem"/>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Name</th><th>Role</th><th>Email</th>
+                <th>Status</th><th>Active</th><th>Last Login</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:.78rem">001</td>
+                <td><strong>Margaret Reynolds</strong></td>
+                <td><span class="badge badge-teal">Elderly</span></td>
+                <td><span style="font-size:.8rem">margaret.r@email.com</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td>
+                  <label class="toggle"><input type="checkbox" checked onchange="this.parentElement.nextElementSibling.style.display='none'"/><span class="toggle-slider"></span></label>
+                </td>
+                <td><span style="font-family:'IBM Plex Mono',monospace;font-size:.78rem">25 Feb 09:10</span></td>
+                <td>
+                  <div class="td-actions">
+                    <button class="btn btn-sm btn-slate" onclick="alert('Edit user: Margaret Reynolds')">✎ Edit</button>
+                    <button class="btn btn-sm btn-amber" onclick="alert('Password reset link sent.')">🔑 Reset</button>
+                    <button class="btn btn-sm btn-danger" onclick="alert('User removed.')">✕ Remove</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:.78rem">002</td>
+                <td><strong>Aisha Sharma</strong></td>
+                <td><span class="badge badge-blue">Caregiver</span></td>
+                <td><span style="font-size:.8rem">aisha.s@email.com</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td><label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label></td>
+                <td><span style="font-family:'IBM Plex Mono',monospace;font-size:.78rem">25 Feb 10:20</span></td>
+                <td>
+                  <div class="td-actions">
+                    <button class="btn btn-sm btn-slate" onclick="alert('Edit user: Aisha Sharma')">✎ Edit</button>
+                    <button class="btn btn-sm btn-amber" onclick="alert('Password reset link sent.')">🔑 Reset</button>
+                    <button class="btn btn-sm btn-danger" onclick="alert('User removed.')">✕ Remove</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:.78rem">003</td>
+                <td><strong>Ramesh Sharma</strong></td>
+                <td><span class="badge badge-teal">Elderly</span></td>
+                <td><span style="font-size:.8rem">ramesh.sh@email.com</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td><label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label></td>
+                <td><span style="font-family:'IBM Plex Mono',monospace;font-size:.78rem">25 Feb 08:55</span></td>
+                <td>
+                  <div class="td-actions">
+                    <button class="btn btn-sm btn-slate" onclick="alert('Edit user: Ramesh Sharma')">✎ Edit</button>
+                    <button class="btn btn-sm btn-amber" onclick="alert('Password reset link sent.')">🔑 Reset</button>
+                    <button class="btn btn-sm btn-danger" onclick="alert('User removed.')">✕ Remove</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:.78rem">004</td>
+                <td><strong>Harold Thompson</strong></td>
+                <td><span class="badge badge-teal">Elderly</span></td>
+                <td><span style="font-size:.8rem">harold.t@email.com</span></td>
+                <td><span class="badge badge-amber">Inactive</span></td>
+                <td><label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label></td>
+                <td><span style="font-family:'IBM Plex Mono',monospace;font-size:.78rem">20 Feb 14:33</span></td>
+                <td>
+                  <div class="td-actions">
+                    <button class="btn btn-sm btn-slate" onclick="alert('Edit user: Harold Thompson')">✎ Edit</button>
+                    <button class="btn btn-sm btn-amber" onclick="alert('Password reset link sent.')">🔑 Reset</button>
+                    <button class="btn btn-sm btn-danger" onclick="alert('User removed.')">✕ Remove</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:.78rem">005</td>
+                <td><strong>Dr. Priya Menon</strong></td>
+                <td><span class="badge badge-blue">Caregiver</span></td>
+                <td><span style="font-size:.8rem">priya.m@email.com</span></td>
+                <td><span class="badge badge-green">Active</span></td>
+                <td><label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label></td>
+                <td><span style="font-family:'IBM Plex Mono',monospace;font-size:.78rem">24 Feb 09:12</span></td>
+                <td>
+                  <div class="td-actions">
+                    <button class="btn btn-sm btn-slate" onclick="alert('Edit user: Priya Menon')">✎ Edit</button>
+                    <button class="btn btn-sm btn-amber" onclick="alert('Password reset link sent.')">🔑 Reset</button>
+                    <button class="btn btn-sm btn-danger" onclick="alert('User removed.')">✕ Remove</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted);font-family:'IBM Plex Mono',monospace;font-size:.78rem">006</td>
+                <td><strong>Eleanor Kim</strong></td>
+                <td><span class="badge badge-teal">Elderly</span></td>
+                <td><span style="font-size:.8rem">eleanor.k@email.com</span></td>
+                <td><span class="badge badge-red">Suspended</span></td>
+                <td><label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label></td>
+                <td><span style="font-family:'IBM Plex Mono',monospace;font-size:.78rem">18 Feb 11:05</span></td>
+                <td>
+                  <div class="td-actions">
+                    <button class="btn btn-sm btn-slate" onclick="alert('Edit user: Eleanor Kim')">✎ Edit</button>
+                    <button class="btn btn-sm btn-amber" onclick="alert('Password reset link sent.')">🔑 Reset</button>
+                    <button class="btn btn-sm btn-danger" onclick="alert('User removed.')">✕ Remove</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <span style="font-size:.78rem;color:var(--text-soft)">Showing 6 of 47 users</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-secondary btn-sm">← Prev</button>
+            <button class="btn btn-primary btn-sm">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 3: CAREGIVER APPROVAL ──────────── -->
+      <div class="section-label">⏳ Pending Caregiver Approvals</div>
+      <div class="card-block">
+        <div class="cb-header">
+          <div class="cb-title">🩺 Caregiver Registration Requests</div>
+          <span class="cb-count">2 pending</span>
+        </div>
+        <div class="approval-list">
+
+          <div class="approval-card">
+            <div class="approval-av">👩</div>
+            <div class="approval-info">
+              <div class="approval-name">Sunita Nair</div>
+              <div class="approval-meta">
+                <span>📧 sunita.nair@email.com</span>
+                <span>📱 +91 98001 23456</span>
+                <span>📅 Applied: 24 Feb 2026</span>
+                <span><span class="badge badge-amber">Pending Review</span></span>
+              </div>
+              <div style="font-size:.78rem;color:var(--text-soft);margin-top:5px">
+                Note: Family caregiver for patient — <strong>Agnes Fernandez (Room 302)</strong>
+              </div>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-success btn-sm" onclick="this.parentElement.parentElement.style.opacity='.5';alert('Sunita Nair approved.')">✓ Approve</button>
+              <button class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.style.opacity='.5';alert('Request rejected.')">✕ Reject</button>
+            </div>
+          </div>
+
+          <div class="approval-card">
+            <div class="approval-av">👨</div>
+            <div class="approval-info">
+              <div class="approval-name">Deepak Varma</div>
+              <div class="approval-meta">
+                <span>📧 deepak.v@email.com</span>
+                <span>📱 +91 97700 88234</span>
+                <span>📅 Applied: 25 Feb 2026</span>
+                <span><span class="badge badge-amber">Pending Review</span></span>
+              </div>
+              <div style="font-size:.78rem;color:var(--text-soft);margin-top:5px">
+                Note: Son of registered patient — <strong>Mohan Varma (Room 108)</strong>
+              </div>
+            </div>
+            <div class="approval-actions">
+              <button class="btn btn-success btn-sm" onclick="this.parentElement.parentElement.style.opacity='.5';alert('Deepak Varma approved.')">✓ Approve</button>
+              <button class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.style.opacity='.5';alert('Request rejected.')">✕ Reject</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+</script>
+</body>
+</html>

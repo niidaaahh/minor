@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Care & Safety — Health Reports</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --sky:#eaf3fc;--sky2:#f2eefb;--lavender:#e4ddf8;--lav-mid:#c4b8ee;
+  --lav-deep:#7c6abf;--lav-dark:#4b3d8f;--blue-deep:#3a78c9;--blue-lt:#eaf4fd;
+  --rose:#fce9e9;--rose-deep:#c94444;--amber:#fef4e0;--amber-deep:#c47a18;
+  --sage:#e2f5ee;--sage-deep:#2f9e72;--white:#ffffff;
+  --text:#252048;--text-mid:#4e4875;--text-soft:#9590b5;
+  --border:rgba(196,184,238,0.4);--border-row:rgba(196,184,238,0.22);
+  --shadow-sm:0 2px 12px rgba(90,70,160,0.07);--shadow-md:0 6px 28px rgba(90,70,160,0.12);
+  --r:18px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'DM Sans',sans-serif;min-height:100vh;
+  background:radial-gradient(ellipse 80% 60% at 10% 0%,rgba(196,184,238,.32) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%,rgba(146,189,232,.28) 0%,transparent 60%),
+    linear-gradient(160deg,var(--sky2) 0%,var(--sky) 100%);
+  color:var(--text);
+}
+header{background:rgba(255,255,255,.72);backdrop-filter:blur(20px);border-bottom:1.5px solid var(--border);
+  position:sticky;top:0;z-index:100;height:64px;padding:0 clamp(16px,5vw,48px);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.brand-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--lav-deep),var(--blue-deep));
+  display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 3px 10px rgba(90,70,160,.22);}
+.brand-name{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--text);}
+.brand-name span{color:var(--lav-deep);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-nav{padding:7px 16px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.81rem;font-weight:600;
+  cursor:pointer;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.btn-back{background:var(--lavender);border:1.5px solid var(--lav-mid);color:var(--lav-deep);}
+.btn-back:hover{background:var(--lav-mid);transform:translateY(-1px);}
+.btn-logout{background:var(--white);border:1.5px solid var(--lav-mid);color:var(--text-mid);}
+.btn-logout:hover{background:var(--lavender);color:var(--lav-dark);transform:translateY(-1px);}
+
+.container{max-width:920px;margin:0 auto;padding:clamp(28px,5vw,52px) clamp(14px,4vw,24px) 64px;}
+
+.page-intro{margin-bottom:34px;animation:fadeSlide .5s ease both;}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;color:var(--lav-deep);background:var(--lavender);
+  border:1.5px solid var(--lav-mid);padding:4px 13px;border-radius:30px;margin-bottom:12px;}
+.page-intro h1{font-family:'Fraunces',serif;font-size:clamp(1.45rem,3.5vw,1.95rem);font-weight:600;margin-bottom:5px;}
+.page-intro p{font-size:.88rem;color:var(--text-soft);}
+
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+.section-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700;
+  color:var(--text-soft);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.card{background:rgba(255,255,255,.82);border:1.5px solid rgba(255,255,255,.96);
+  border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:30px;
+  animation:fadeUp .5s ease .1s both;}
+.card:nth-of-type(2){animation-delay:.22s;}
+
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.875rem;}
+thead tr{background:linear-gradient(90deg,rgba(228,221,248,.7),rgba(218,234,249,.7));}
+thead th{padding:12px 18px;text-align:left;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.11em;color:var(--text-mid);font-weight:700;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border-row);transition:background .15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:rgba(228,221,248,.18);}
+tbody td{padding:13px 18px;vertical-align:middle;color:var(--text);}
+
+.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;}
+.pill-taken{background:var(--sage);color:var(--sage-deep);}
+.pill-missed{background:var(--rose);color:var(--rose-deep);}
+.pill-normal{background:var(--sage);color:var(--sage-deep);}
+.pill-high{background:var(--amber);color:var(--amber-deep);}
+.pill-crit{background:var(--rose);color:var(--rose-deep);}
+.pill-watch{background:var(--blue-lt);color:var(--blue-deep);}
+
+.prog-cell{display:flex;align-items:center;gap:10px;}
+.prog-track{height:7px;width:80px;background:rgba(196,184,238,.3);border-radius:20px;overflow:hidden;flex-shrink:0;}
+.prog-fill{height:100%;border-radius:20px;}
+.pf-high{background:var(--sage-deep);}
+.pf-mid{background:var(--amber-deep);}
+.pf-low{background:var(--rose-deep);}
+
+.med-cell{display:flex;flex-direction:column;}
+.med-name{font-weight:600;}
+.med-dose{font-size:.75rem;color:var(--text-soft);margin-top:1px;}
+.note-cell{font-size:.82rem;color:var(--text-mid);font-style:italic;}
+
+.card-footer{padding:16px 22px 20px;border-top:1px solid var(--border-row);
+  display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap;}
+.card-footer-note{font-size:.78rem;color:var(--text-soft);}
+.btn-download{padding:10px 24px;background:linear-gradient(135deg,var(--lav-deep),var(--blue-deep));
+  color:#fff;border:none;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:.86rem;
+  font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  transition:transform .2s,box-shadow .2s;text-decoration:none;}
+.btn-download:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(90,70,160,.38);}
+
+@media(max-width:580px){.btn-logout{display:none;}.card-footer{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="caregiver-home.html">
+    <div class="brand-icon">🏥</div>
+    <span class="brand-name">Care &amp; <span>Safety</span></span>
+  </a>
+  <div class="nav-right">
+    <a class="btn-nav btn-back" href="caregiver-home.html">← Back</a>
+    <a class="btn-nav btn-logout" href="#">Logout</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-intro">
+    <div class="eyebrow">🩺 Health Reports</div>
+    <h1>Ramesh Sharma's Health Overview</h1>
+    <p>Medicine adherence and daily vital sign logs — February 2026</p>
+  </div>
+
+  <div class="section-label">💊 Medicine Adherence Log</div>
+  <div class="card">
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th><th>Medicine</th><th>Scheduled Time</th><th>Status</th><th>Monthly Adherence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>25 Feb 2026</td>
+            <td><div class="med-cell"><span class="med-name">Amlodipine</span><span class="med-dose">5mg · Once daily (Morning)</span></div></td>
+            <td>8:00 AM</td><td><span class="pill pill-taken">✓ Taken</span></td>
+            <td><div class="prog-cell"><div class="prog-track"><div class="prog-fill pf-high" style="width:90%"></div></div><span style="font-size:.78rem;font-weight:700;color:#2f9e72">90%</span></div></td>
+          </tr>
+          <tr>
+            <td>25 Feb 2026</td>
+            <td><div class="med-cell"><span class="med-name">Metformin</span><span class="med-dose">500mg · Twice daily</span></div></td>
+            <td>8:00 AM &amp; 8:00 PM</td><td><span class="pill pill-missed">✕ Missed (PM)</span></td>
+            <td><div class="prog-cell"><div class="prog-track"><div class="prog-fill pf-mid" style="width:62%"></div></div><span style="font-size:.78rem;font-weight:700;color:#c47a18">62%</span></div></td>
+          </tr>
+          <tr>
+            <td>24 Feb 2026</td>
+            <td><div class="med-cell"><span class="med-name">Amlodipine</span><span class="med-dose">5mg · Once daily (Morning)</span></div></td>
+            <td>8:00 AM</td><td><span class="pill pill-taken">✓ Taken</span></td>
+            <td><div class="prog-cell"><div class="prog-track"><div class="prog-fill pf-high" style="width:90%"></div></div><span style="font-size:.78rem;font-weight:700;color:#2f9e72">90%</span></div></td>
+          </tr>
+          <tr>
+            <td>24 Feb 2026</td>
+            <td><div class="med-cell"><span class="med-name">Metformin</span><span class="med-dose">500mg · Twice daily</span></div></td>
+            <td>8:00 AM &amp; 8:00 PM</td><td><span class="pill pill-taken">✓ Taken</span></td>
+            <td><div class="prog-cell"><div class="prog-track"><div class="prog-fill pf-mid" style="width:62%"></div></div><span style="font-size:.78rem;font-weight:700;color:#c47a18">62%</span></div></td>
+          </tr>
+          <tr>
+            <td>23 Feb 2026</td>
+            <td><div class="med-cell"><span class="med-name">Atorvastatin</span><span class="med-dose">10mg · Once daily (Night)</span></div></td>
+            <td>9:00 PM</td><td><span class="pill pill-missed">✕ Missed</span></td>
+            <td><div class="prog-cell"><div class="prog-track"><div class="prog-fill pf-low" style="width:44%"></div></div><span style="font-size:.78rem;font-weight:700;color:#c94444">44%</span></div></td>
+          </tr>
+          <tr>
+            <td>22 Feb 2026</td>
+            <td><div class="med-cell"><span class="med-name">Metformin</span><span class="med-dose">500mg · Twice daily</span></div></td>
+            <td>8:00 AM &amp; 8:00 PM</td><td><span class="pill pill-missed">✕ Missed (AM)</span></td>
+            <td><div class="prog-cell"><div class="prog-track"><div class="prog-fill pf-mid" style="width:62%"></div></div><span style="font-size:.78rem;font-weight:700;color:#c47a18">62%</span></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer">
+      <span class="card-footer-note">Showing last 6 records</span>
+      <a class="btn-download" href="#" onclick="alert('Generating PDF report…');return false;">
+        ⬇ Download Medicine Report
+      </a>
+    </div>
+  </div>
+
+  <div class="section-label" style="animation:fadeUp .5s ease .25s both">📋 Daily Health Logs</div>
+  <div class="card" style="animation-delay:.3s">
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th><th>Time</th><th>Blood Pressure</th><th>Heart Rate</th><th>Temperature</th><th>Status</th><th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>25 Feb 2026</strong></td><td>10:30 AM</td><td>128 / 82 mmHg</td><td>76 bpm</td><td>36.7°C</td>
+            <td><span class="pill pill-normal">Stable</span></td>
+            <td class="note-cell">Post-breakfast reading. Normal.</td>
+          </tr>
+          <tr>
+            <td><strong>24 Feb 2026</strong></td><td>9:15 AM</td><td>134 / 86 mmHg</td><td>82 bpm</td><td>36.9°C</td>
+            <td><span class="pill pill-high">Slightly High</span></td>
+            <td class="note-cell">Mild elevation in morning.</td>
+          </tr>
+          <tr>
+            <td><strong>23 Feb 2026</strong></td><td>11:00 AM</td><td>122 / 78 mmHg</td><td>72 bpm</td><td>36.5°C</td>
+            <td><span class="pill pill-normal">Stable</span></td>
+            <td class="note-cell">Good reading after morning walk.</td>
+          </tr>
+          <tr>
+            <td><strong>22 Feb 2026</strong></td><td>8:45 AM</td><td>148 / 94 mmHg</td><td>90 bpm</td><td>37.2°C</td>
+            <td><span class="pill pill-crit">Elevated</span></td>
+            <td class="note-cell">Reported dizziness. Rested.</td>
+          </tr>
+          <tr>
+            <td><strong>21 Feb 2026</strong></td><td>10:00 AM</td><td>126 / 80 mmHg</td><td>74 bpm</td><td>36.6°C</td>
+            <td><span class="pill pill-normal">Stable</span></td>
+            <td class="note-cell">Normal day reading.</td>
+          </tr>
+          <tr>
+            <td><strong>20 Feb 2026</strong></td><td>9:30 AM</td><td>131 / 84 mmHg</td><td>78 bpm</td><td>36.8°C</td>
+            <td><span class="pill pill-watch">Monitor</span></td>
+            <td class="note-cell">Slight BP increase. Monitoring.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer">
+      <span class="card-footer-note">Showing last 6 days</span>
+      <a class="btn-download" href="#" onclick="alert('Downloading health logs…');return false;">
+        ⬇ Download Health Logs
+      </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

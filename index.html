@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Assisted Care for Elderly</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f2efe9 0%, #e6f1f5 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  max-width: 1200px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+  background: linear-gradient(135deg, #f2c97d 0%, #f7ddb0 100%);
+  padding: 40px;
+  text-align: center;
+}
+
+.header h1 {
+  color: #2f2a7c;
+  font-size: 2.6em;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.header p {
+  color: #3f3a8c;
+  font-size: 1.3em;
+}
+
+/* ---------- MAIN ---------- */
+.main-content {
+  display: flex;
+  padding: 60px 40px;
+  gap: 60px;
+  align-items: center;
+  background: linear-gradient(135deg, #edf7f9 0%, #e4f3ee 100%);
+}
+
+.left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.welcome-text {
+  color: #2f2a7c;
+  font-size: 3.2em;
+  font-family: 'Brush Script MT', cursive;
+  text-align: center;
+}
+
+/* ---------- BUTTONS ---------- */
+.button {
+  background: linear-gradient(135deg, #f2c97d 0%, #f7ddb0 100%);
+  border: none;
+  padding: 22px 40px;
+  font-size: 1.4em;
+  color: #2f2a7c;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- RIGHT SECTION ---------- */
+.right-section {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  min-height: 350px;
+}
+
+/* ---------- ROBOT ---------- */
+.robot-container {
+  width: 280px;
+  height: 280px;
+  background: #e1ecff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.robot {
+  width: 200px;
+  height: 220px;
+}
+
+.robot-head {
+  width: 140px;
+  height: 140px;
+  background: #ffffff;
+  border-radius: 50%;
+  margin: 0 auto;
+  border: 6px solid #2f2a7c;
+  position: relative;
+}
+
+.antenna {
+  width: 4px;
+  height: 30px;
+  background: #2f2a7c;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.antenna::before,
+.antenna::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 4px;
+  background: #2f2a7c;
+}
+
+.antenna::before {
+  left: -25px;
+  transform: rotate(-30deg);
+}
+
+.antenna::after {
+  right: -25px;
+  transform: rotate(30deg);
+}
+
+.eyes {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.eye {
+  width: 22px;
+  height: 22px;
+  background: #2f2a7c;
+  border-radius: 50%;
+}
+
+.smile {
+  width: 60px;
+  height: 30px;
+  border: 5px solid #2f2a7c;
+  border-top: none;
+  border-radius: 0 0 60px 60px;
+  margin: 15px auto 0;
+}
+
+.robot-body {
+  width: 100px;
+  height: 80px;
+  background: #ffffff;
+  border-radius: 15px;
+  margin: 10px auto 0;
+  border: 5px solid #2f2a7c;
+  position: relative;
+}
+
+.heart {
+  width: 30px;
+  height: 30px;
+  background: #e94b7a;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  width: 30px;
+  height: 30px;
+  background: #e94b7a;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -15px;
+}
+
+.heart::after {
+  left: 15px;
+}
+
+/* ---------- DESCRIPTION ---------- */
+.description {
+  color: #2f2a7c;
+  font-size: 1.2em;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  border-top: 2px solid #f2c97d;
+}
+
+.footer-link {
+  color: #2f2a7c;
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 968px) {
+  .main-content {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>AI ASSISTED CARE FOR ELDERLY</h1>
+    <p>Helping elderly people stay safe, healthy, and independent</p>
+  </div>
+
+  <div class="main-content">
+
+    <div class="left-section">
+      <div class="welcome-text">Welcome!</div>
+
+      <button class="button" onclick="window.location.href='login.html'">
+        Get Started
+      </button>
+
+      <button class="button" onclick="window.location.href='how.html'">
+        How We Help You
+      </button>
+
+      <button class="button" onclick="window.location.href='care.html'">
+        Care & Safety
+      </button>
+    </div>
+
+    <div class="right-section">
+      <div class="robot-container">
+        <div class="robot">
+          <div class="robot-head">
+            <div class="antenna"></div>
+            <div class="eyes">
+              <div class="eye"></div>
+              <div class="eye"></div>
+            </div>
+            <div class="smile"></div>
+          </div>
+          <div class="robot-body">
+            <div class="heart"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="description">
+        We help you stay safe, healthy, and independent.<br>
+        Choose an option on the left to continue.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <a href="#" class="footer-link">👨‍⚕️ Caregiver Support</a>
+    <a href="#" class="footer-link">🔒 Privacy</a>
+    <a href="#" class="footer-link">❓ Help</a>
+  </div>
+
+</div>
+</body>
+</html>

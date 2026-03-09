@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How We Help You - AI Assisted Care for Elderly</title>
+    <style>
+        /* ============================================
+           GLOBAL RESET & BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Soft pastel gradient background - calming healthcare theme */
+            background: linear-gradient(135deg, #e1f5fe 0%, #f3e5f5 50%, #fff8e1 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           MAIN CONTAINER
+           ============================================ */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           HEADER SECTION
+           ============================================ */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.6rem;
+            color: #5a6c7d;
+            font-weight: 400;
+        }
+
+        /* ============================================
+           FEATURE CARDS SECTION
+           ============================================ */
+        .features-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 35px 40px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Individual card color accents */
+        .feature-card.medication {
+            border-left: 6px solid #66bb6a;
+        }
+
+        .feature-card.appointment {
+            border-left: 6px solid #42a5f5;
+        }
+
+        .feature-card.ai-health {
+            border-left: 6px solid #ab47bc;
+        }
+
+        .feature-card.emergency {
+            border-left: 6px solid #ef5350;
+        }
+
+        .feature-card.caregiver {
+            border-left: 6px solid #ffa726;
+        }
+
+        .feature-card.emotional {
+            border-left: 6px solid #ec407a;
+        }
+
+        /* ============================================
+           CARD CONTENT
+           ============================================ */
+        .feature-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .feature-description {
+            font-size: 1.4rem;
+            color: #5a6c7d;
+            line-height: 1.7;
+            margin-left: 75px;
+        }
+
+        /* ============================================
+           NAVIGATION BUTTONS
+           ============================================ */
+        .navigation-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 20px 45px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        /* Back to Home button - subtle style */
+        .btn-home {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 3px solid #90caf9;
+        }
+
+        .btn-home:hover {
+            background: #bbdefb;
+            border-color: #42a5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(25, 118, 210, 0.2);
+        }
+
+        /* Get Started button - prominent call to action */
+        .btn-get-started {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+        }
+
+        .btn-get-started:hover {
+            background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(67, 160, 71, 0.4);
+        }
+
+        /* Focus states for keyboard navigation */
+        .btn:focus {
+            outline: 3px solid #42a5f5;
+            outline-offset: 3px;
+        }
+
+        /* ============================================
+           FOOTER MESSAGE
+           ============================================ */
+        .footer-message {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+        }
+
+        .footer-message p {
+            font-size: 1.3rem;
+            color: #5a6c7d;
+            line-height: 1.8;
+        }
+
+        .footer-message strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN FOR TABLETS
+           ============================================ */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .feature-card {
+                padding: 30px 25px;
+            }
+
+            .feature-icon {
+                font-size: 3rem;
+                margin-right: 15px;
+            }
+
+            .feature-title {
+                font-size: 1.5rem;
+            }
+
+            .feature-description {
+                font-size: 1.2rem;
+                margin-left: 60px;
+            }
+
+            .btn {
+                font-size: 1.2rem;
+                padding: 18px 35px;
+                min-width: 180px;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN FOR MOBILE
+           ============================================ */
+        @media (max-width: 480px) {
+            body {
+                padding: 30px 15px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .features-container {
+                gap: 25px;
+            }
+
+            .feature-card {
+                padding: 25px 20px;
+            }
+
+            .feature-header {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 15px;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .feature-title {
+                font-size: 1.4rem;
+            }
+
+            .feature-description {
+                font-size: 1.15rem;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .footer-message {
+                padding: 20px;
+            }
+
+            .footer-message p {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ============================================
+           ACCESSIBILITY ENHANCEMENTS
+           ============================================ */
+        *:focus-visible {
+            outline: 3px solid #42a5f5;
+            outline-offset: 3px;
+        }
+
+        ::selection {
+            background: #bbdefb;
+            color: #1565c0;
+        }
+
+        /* Ensure all text is highly readable */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         MAIN CONTAINER
+         ============================================ -->
+    <div class="container">
+        
+        <!-- ============================================
+             HEADER SECTION
+             ============================================ -->
+        <header class="header">
+            <h1 class="page-title">How We Help You</h1>
+            <p class="page-subtitle">Simple support for your daily life</p>
+        </header>
+
+        <!-- ============================================
+             FEATURE CARDS
+             ============================================ -->
+        <div class="features-container">
+            
+            <!-- FEATURE 1: Medication Reminders -->
+            <div class="feature-card medication">
+                <div class="feature-header">
+                    <div class="feature-icon">💊</div>
+                    <h2 class="feature-title">Medication Reminders</h2>
+                </div>
+                <p class="feature-description">
+                    We remind you to take your medicines on time so you never forget.
+                </p>
+            </div>
+
+            <!-- FEATURE 2: Appointment Alerts -->
+            <div class="feature-card appointment">
+                <div class="feature-header">
+                    <div class="feature-icon">📅</div>
+                    <h2 class="feature-title">Appointment Alerts</h2>
+                </div>
+                <p class="feature-description">
+                    Get reminders for doctor visits and health checkups.
+                </p>
+            </div>
+
+            <!-- FEATURE 3: AI Health Assistance -->
+            <div class="feature-card ai-health">
+                <div class="feature-header">
+                    <div class="feature-icon">🤖</div>
+                    <h2 class="feature-title">AI Health Assistance</h2>
+                </div>
+                <p class="feature-description">
+                    Our AI assistant helps answer basic health questions anytime.
+                </p>
+            </div>
+
+            <!-- FEATURE 4: Emergency Help -->
+            <div class="feature-card emergency">
+                <div class="feature-header">
+                    <div class="feature-icon">🚨</div>
+                    <h2 class="feature-title">Emergency Help</h2>
+                </div>
+                <p class="feature-description">
+                    Press the emergency button to quickly alert caregivers when needed.
+                </p>
+            </div>
+
+            <!-- FEATURE 5: Caregiver Support -->
+            <div class="feature-card caregiver">
+                <div class="feature-header">
+                    <div class="feature-icon">👨‍⚕️</div>
+                    <h2 class="feature-title">Caregiver Support</h2>
+                </div>
+                <p class="feature-description">
+                    Caregivers can monitor reminders and provide help when required.
+                </p>
+            </div>
+
+            <!-- FEATURE 6: Emotional Support -->
+            <div class="feature-card emotional">
+                <div class="feature-header">
+                    <div class="feature-icon">💝</div>
+                    <h2 class="feature-title">Emotional Support</h2>
+                </div>
+                <p class="feature-description">
+                    We provide caring companionship and someone to talk to when you feel lonely.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- ============================================
+             NAVIGATION BUTTONS
+             ============================================ -->
+        <div class="navigation-buttons">
+            <a href="login.html" class="btn btn-get-started">Get Started</a>
+        </div>
+
+        <!-- ============================================
+             FOOTER MESSAGE
+             ============================================ -->
+        <div class="footer-message">
+            <p>
+                <strong>We're here to help you live independently with confidence.</strong><br>
+                Our simple and caring system is designed especially for you.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT FOR ACCESSIBILITY
+         ============================================ -->
+    <script>
+        /**
+         * Smooth scroll to top on page load
+         * Ensures elderly users start at the top of the page
+         */
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
+
+        /**
+         * Add keyboard navigation helper
+         * Allows users to navigate with Enter key on buttons
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+
