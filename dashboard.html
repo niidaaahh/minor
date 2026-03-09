@@ -24,7 +24,6 @@
   .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: blink 2s infinite; }
   @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-  /* ── HEADER RIGHT ── */
   .header-right { display: flex; align-items: center; gap: 12px; }
   .admin-pill { font-size: 0.75rem; font-weight: 700; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px; }
   .clock-pill { font-size: 0.75rem; font-weight: 800; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 20px; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; color: #86efac; }
@@ -32,28 +31,8 @@
   .btn-logout:hover { background: rgba(239,68,68,0.32); }
 
   /* ── TABS ── */
-  .tabs {
-    background: #fff;
-    border-bottom: 2px solid #e5e7eb;
-    padding: 0 24px;
-    display: flex;
-    gap: 4px;
-    overflow-x: auto;
-  }
-  .tab {
-    padding: 14px 18px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: #6b7280;
-    cursor: pointer;
-    border: none;
-    background: none;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    white-space: nowrap;
-    transition: color 0.15s, border-color 0.15s;
-    font-family: 'Nunito', sans-serif;
-  }
+  .tabs { background: #fff; border-bottom: 2px solid #e5e7eb; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto; }
+  .tab { padding: 14px 18px; font-size: 0.88rem; font-weight: 700; color: #6b7280; cursor: pointer; border: none; background: none; border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: color 0.15s, border-color 0.15s; font-family: 'Nunito', sans-serif; }
   .tab:hover { color: #1e293b; }
   .tab.active { color: #3b82f6; border-bottom-color: #3b82f6; }
 
@@ -64,27 +43,13 @@
 
   /* ── CARDS ── */
   .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 20px; }
-  .card-head {
-    padding: 16px 20px;
-    border-bottom: 1px solid #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+  .card-head { padding: 16px 20px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .card-title { font-size: 0.95rem; font-weight: 800; }
   .card-body { padding: 20px; }
 
   /* ── STAT GRID ── */
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 20px; }
-  .stat {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 18px 16px;
-    border-top: 3px solid #3b82f6;
-  }
+  .stat { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 16px; border-top: 3px solid #3b82f6; }
   .stat.g { border-top-color: #22c55e; }
   .stat.a { border-top-color: #f59e0b; }
   .stat.r { border-top-color: #ef4444; }
@@ -94,18 +59,7 @@
   /* ── TABLE ── */
   .tbl-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
-  thead th {
-    text-align: left;
-    padding: 10px 14px;
-    font-size: 0.67rem;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    font-weight: 800;
-    color: #9ca3af;
-    border-bottom: 1px solid #f0f0f0;
-    background: #fafafa;
-    white-space: nowrap;
-  }
+  thead th { text-align: left; padding: 10px 14px; font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 800; color: #9ca3af; border-bottom: 1px solid #f0f0f0; background: #fafafa; white-space: nowrap; }
   tbody td { padding: 12px 14px; border-bottom: 1px solid #f5f5f5; color: #374151; vertical-align: middle; }
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: #f9fafb; }
@@ -133,18 +87,7 @@
   .field { display: flex; flex-direction: column; gap: 6px; }
   .field.full { grid-column: 1 / -1; }
   .field label { font-size: 0.75rem; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 0.07em; }
-  .field input, .field select {
-    padding: 11px 14px;
-    font-size: 0.95rem;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 600;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    background: #fff;
-    color: #1a1a2e;
-    outline: none;
-    transition: border-color 0.2s;
-  }
+  .field input, .field select { padding: 11px 14px; font-size: 0.95rem; font-family: 'Nunito', sans-serif; font-weight: 600; border: 2px solid #e5e7eb; border-radius: 8px; background: #fff; color: #1a1a2e; outline: none; transition: border-color 0.2s; }
   .field input:focus, .field select:focus { border-color: #3b82f6; }
   .form-actions { display: flex; gap: 10px; margin-top: 18px; }
 
@@ -196,8 +139,8 @@
 <div class="page active" id="tab-dashboard">
 <div class="wrap">
 
-  <!-- 4 stat cards only (Active Users + Unresolved removed) -->
-  <div class="stats" id="stat-cards">
+  <!-- 4 stats only — Active Users & Unresolved removed -->
+  <div class="stats">
     <div class="stat">
       <div class="stat-val" id="s-total">—</div>
       <div class="stat-lbl">Total Users</div>
@@ -232,7 +175,7 @@
     </div>
   </div>
 
-  <!-- Recent Logins -->
+  <!-- Recent Logins (static) -->
   <div class="card">
     <div class="card-head">
       <div class="card-title">🔑 Recent Admin Logins</div>
@@ -273,14 +216,13 @@
 <!-- ════ MANAGE USERS ════ -->
 <div class="page" id="tab-users">
 <div class="wrap">
-
   <div class="card">
     <div class="card-head">
       <div class="card-title">👥 All Users</div>
       <button class="btn btn-primary" onclick="openAddUser()">＋ Add User</button>
     </div>
     <div class="tbl-wrap">
-      <table id="users-table">
+      <table>
         <thead><tr><th>User ID</th><th>Name</th><th>Role</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody id="users-body">
           <tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">Loading…</td></tr>
@@ -288,7 +230,6 @@
       </table>
     </div>
   </div>
-
 </div>
 </div>
 
@@ -378,44 +319,46 @@
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══════════════════════════════════════════════
-   AUTH GUARD — redirect to login if no session
-══════════════════════════════════════════════ */
+/* ══ PHP API ENDPOINTS ══════════════════════════════════════ */
+const API = {
+  me:        'api/auth/me.php',
+  logout:    'api/auth/logout.php',
+  stats:     'api/dashboard/stats.php',
+  users:     'api/users/index.php',
+  userUpd:   (id) => `api/users/update.php?id=${id}`,
+  userDel:   (id) => `api/users/delete.php?id=${id}`,
+  alerts:    'api/alerts/index.php',
+  resolve:   (id) => `api/alerts/resolve.php?id=${id}`,
+  system:    'api/system/status.php',
+};
+
+/* ══ AUTH GUARD ═════════════════════════════════════════════ */
 (async () => {
   try {
-    const res = await fetch('/api/me', { credentials: 'include' });
-    if (!res.ok) { window.location.href = '/'; return; }
+    const res = await fetch(API.me, { credentials: 'include' });
+    if (!res.ok) { window.location.href = 'index.php'; return; }
     const d = await res.json();
     document.getElementById('adminName').textContent = d.fullName || 'Super Admin';
-  } catch {
-    window.location.href = '/';
-  }
+  } catch { window.location.href = 'index.php'; }
 })();
 
-/* ══════════════════════════════════════════════
-   LIVE CLOCK
-══════════════════════════════════════════════ */
+/* ══ LIVE CLOCK ═════════════════════════════════════════════ */
 function tickClock() {
-  const now = new Date();
-  const hh = String(now.getHours()).padStart(2, '0');
-  const mm = String(now.getMinutes()).padStart(2, '0');
-  const ss = String(now.getSeconds()).padStart(2, '0');
-  document.getElementById('liveClock').textContent = hh + ':' + mm + ':' + ss;
+  const n = new Date();
+  document.getElementById('liveClock').textContent =
+    String(n.getHours()).padStart(2,'0') + ':' +
+    String(n.getMinutes()).padStart(2,'0') + ':' +
+    String(n.getSeconds()).padStart(2,'0');
 }
-tickClock();
-setInterval(tickClock, 1000);
+tickClock(); setInterval(tickClock, 1000);
 
-/* ══════════════════════════════════════════════
-   LOGOUT
-══════════════════════════════════════════════ */
+/* ══ LOGOUT ═════════════════════════════════════════════════ */
 async function logout() {
-  await fetch('/api/logout', { credentials: 'include' });
-  window.location.href = '/';
+  await fetch(API.logout, { credentials: 'include' });
+  window.location.href = 'index.php';
 }
 
-/* ══════════════════════════════════════════════
-   TABS
-══════════════════════════════════════════════ */
+/* ══ TABS ═══════════════════════════════════════════════════ */
 function showTab(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -427,141 +370,121 @@ function showTab(id, btn) {
   if (id === 'system')    loadSystem();
 }
 
-/* ══════════════════════════════════════════════
-   TOAST
-══════════════════════════════════════════════ */
+/* ══ TOAST ══════════════════════════════════════════════════ */
 function toast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
   setTimeout(() => t.style.display = 'none', 2500);
 }
 
-/* ══════════════════════════════════════════════
-   API HELPER
-══════════════════════════════════════════════ */
+/* ══ API HELPER ═════════════════════════════════════════════ */
 async function api(url, opts = {}) {
   const res = await fetch(url, {
     credentials: 'include',
     headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
     ...opts
   });
-  if (res.status === 401) { window.location.href = '/'; return null; }
+  if (res.status === 401) { window.location.href = 'index.php'; return null; }
   return res.json();
 }
 
-/* ══════════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════════ */
+/* ══ HELPERS ════════════════════════════════════════════════ */
 function fmtDate(str) {
   if (!str) return '—';
   const d = new Date(str);
-  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) +
-         ' · ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }) +
+         ' · ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
 }
 function esc(s) {
   return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* ══════════════════════════════════════════════
-   DASHBOARD
-══════════════════════════════════════════════ */
+/* ══ DASHBOARD ══════════════════════════════════════════════ */
 async function loadDashboard() {
   const [stats, alertsData] = await Promise.all([
-    api('/api/dashboard/stats'),
-    api('/api/alerts')
+    api(API.stats),
+    api(API.alerts)
   ]);
-
   if (stats) {
-    document.getElementById('s-total').textContent     = stats.totalUsers;
-    document.getElementById('s-elderly').textContent   = stats.elderly;
+    document.getElementById('s-total').textContent      = stats.totalUsers;
+    document.getElementById('s-elderly').textContent    = stats.elderly;
     document.getElementById('s-caregivers').textContent = stats.caregivers;
-    document.getElementById('s-emergency').textContent = stats.emergencyLogs;
+    document.getElementById('s-emergency').textContent  = stats.emergencyLogs;
   }
-
-  if (alertsData && alertsData.data) {
-    const rows = alertsData.data.slice(0, 5).map(a => alertRow(a, true)).join('');
-    document.getElementById('dash-alert-body').innerHTML = rows || '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No alerts</td></tr>';
+  if (alertsData?.data) {
+    const rows = alertsData.data.slice(0, 5).map(a => alertRow(a)).join('');
+    document.getElementById('dash-alert-body').innerHTML = rows ||
+      '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No alerts</td></tr>';
   }
 }
 
-/* ══════════════════════════════════════════════
-   ALERTS
-══════════════════════════════════════════════ */
+/* ══ ALERTS ═════════════════════════════════════════════════ */
 async function loadAlerts() {
-  const data = await api('/api/alerts');
+  const data = await api(API.alerts);
   if (!data) return;
   const alerts = data.data || [];
-  const open = alerts.filter(a => a.status === 'Open').length;
-  document.getElementById('open-count').textContent = open + ' Open';
+  document.getElementById('open-count').textContent = alerts.filter(a => a.status === 'Open').length + ' Open';
   const body = document.getElementById('alerts-body');
-  body.innerHTML = alerts.map(a => alertRow(a, false)).join('') ||
+  body.innerHTML = alerts.map(a => alertRow(a)).join('') ||
     '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No alerts</td></tr>';
 }
 
-function alertRow(a, compact) {
-  const sevClass = { Critical: 'b-red', Warning: 'b-amber', Low: 'b-gray' }[a.severity] || 'b-gray';
-  const stClass  = a.status === 'Resolved' ? 'b-green' : 'b-amber';
-  const action   = a.status === 'Open'
+function alertRow(a) {
+  const sc = { Critical:'b-red', Warning:'b-amber', Low:'b-gray' }[a.severity] || 'b-gray';
+  const st = a.status === 'Resolved' ? 'b-green' : 'b-amber';
+  const action = a.status === 'Open'
     ? `<button class="btn btn-ghost btn-sm" onclick="resolveAlert(${a.id}, this)">Resolve</button>`
     : '—';
   return `<tr>
     <td>${fmtDate(a.created_at)}</td>
     <td><strong>${esc(a.patient_name)}</strong></td>
     <td>${esc(a.type)}</td>
-    <td><span class="badge ${sevClass}">${esc(a.severity)}</span></td>
-    <td><span class="badge ${stClass}">${esc(a.status)}</span></td>
+    <td><span class="badge ${sc}">${esc(a.severity)}</span></td>
+    <td><span class="badge ${st}">${esc(a.status)}</span></td>
     <td>${action}</td>
   </tr>`;
 }
 
-async function resolveAlert(id, btn) {
-  const data = await api('/api/alerts/' + id + '/resolve', { method: 'PUT' });
-  if (!data || !data.success) { toast('❌ Could not resolve alert'); return; }
+async function resolveAlert(id) {
+  const data = await api(API.resolve(id), { method: 'PUT' });
+  if (!data?.success) { toast('❌ Could not resolve alert'); return; }
   toast('✅ Alert marked as resolved');
-  // update both tables if visible
-  loadAlerts();
-  loadDashboard();
+  loadAlerts(); loadDashboard();
 }
 
-/* ══════════════════════════════════════════════
-   USERS
-══════════════════════════════════════════════ */
+/* ══ USERS ══════════════════════════════════════════════════ */
 async function loadUsers() {
-  const data = await api('/api/users');
+  const data = await api(API.users);
   if (!data) return;
-  const users = data.data || [];
-  const roleClass = { Elderly: 'b-blue', Caregiver: 'b-green', Admin: 'b-red' };
+  const rc = { Elderly:'b-blue', Caregiver:'b-green', Admin:'b-red' };
   const body = document.getElementById('users-body');
-  body.innerHTML = users.map(u => `<tr>
+  body.innerHTML = (data.data || []).map(u => `<tr>
     <td><code>${esc(u.user_id)}</code></td>
     <td><strong>${esc(u.name)}</strong></td>
-    <td><span class="badge ${roleClass[u.role] || 'b-gray'}">${esc(u.role)}</span></td>
+    <td><span class="badge ${rc[u.role]||'b-gray'}">${esc(u.role)}</span></td>
     <td>${esc(u.phone)}</td>
-    <td><span class="badge ${u.status === 'Active' ? 'b-green' : 'b-amber'}">${esc(u.status)}</span></td>
+    <td><span class="badge ${u.status==='Active'?'b-green':'b-amber'}">${esc(u.status)}</span></td>
     <td style="display:flex;gap:6px;">
       <button class="btn btn-ghost btn-sm" onclick='openEditUser(${JSON.stringify(u)})'>Edit</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id}, '${esc(u.name)}')">Delete</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id},'${esc(u.name)}')">Delete</button>
     </td>
-  </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No users found</td></tr>';
+  </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">No users</td></tr>';
 }
 
-// Modal – Add
 function openAddUser() {
-  document.getElementById('modal-heading').textContent = '➕ Add New User';
-  document.getElementById('modal-save-btn').textContent = '✓ Add User';
-  document.getElementById('f-db-id').value = '';
-  document.getElementById('f-name').value  = '';
-  document.getElementById('f-phone').value = '';
-  document.getElementById('f-role').value  = 'Elderly';
+  document.getElementById('modal-heading').textContent   = '➕ Add New User';
+  document.getElementById('modal-save-btn').textContent  = '✓ Add User';
+  document.getElementById('f-db-id').value  = '';
+  document.getElementById('f-name').value   = '';
+  document.getElementById('f-phone').value  = '';
+  document.getElementById('f-role').value   = 'Elderly';
   document.getElementById('f-status').value = 'Active';
   document.getElementById('modal-add').classList.add('show');
 }
 
-// Modal – Edit
 function openEditUser(u) {
-  document.getElementById('modal-heading').textContent = '✏️ Edit User';
-  document.getElementById('modal-save-btn').textContent = '✓ Save Changes';
+  document.getElementById('modal-heading').textContent   = '✏️ Edit User';
+  document.getElementById('modal-save-btn').textContent  = '✓ Save Changes';
   document.getElementById('f-db-id').value  = u.id;
   document.getElementById('f-name').value   = u.name;
   document.getElementById('f-phone').value  = u.phone;
@@ -575,52 +498,41 @@ function closeModal() {
 }
 
 async function saveUser() {
-  const id    = document.getElementById('f-db-id').value;
-  const name  = document.getElementById('f-name').value.trim();
-  const phone = document.getElementById('f-phone').value.trim();
-  const role  = document.getElementById('f-role').value;
+  const id     = document.getElementById('f-db-id').value;
+  const name   = document.getElementById('f-name').value.trim();
+  const phone  = document.getElementById('f-phone').value.trim();
+  const role   = document.getElementById('f-role').value;
   const status = document.getElementById('f-status').value;
-
   if (!name) { toast('⚠️ Name is required'); return; }
 
   const body = JSON.stringify({ name, phone, role, status });
-  let data;
-  if (id) {
-    data = await api('/api/users/' + id, { method: 'PUT', body });
-  } else {
-    data = await api('/api/users', { method: 'POST', body });
-  }
+  const data = id
+    ? await api(API.userUpd(id), { method: 'PUT',  body })
+    : await api(API.users,       { method: 'POST', body });
 
-  if (!data || !data.success) { toast('❌ ' + (data?.message || 'Save failed')); return; }
-
+  if (!data?.success) { toast('❌ ' + (data?.message || 'Save failed')); return; }
   toast(id ? '✏️ User updated' : '✅ User added');
-  closeModal();
-  loadUsers();
-  loadDashboard(); // refresh stat counts
+  closeModal(); loadUsers(); loadDashboard();
 }
 
 async function deleteUser(id, name) {
   if (!confirm('Delete ' + name + '?')) return;
-  const data = await api('/api/users/' + id, { method: 'DELETE' });
-  if (!data || !data.success) { toast('❌ Delete failed'); return; }
+  const data = await api(API.userDel(id), { method: 'DELETE' });
+  if (!data?.success) { toast('❌ Delete failed'); return; }
   toast('🗑 User removed');
-  loadUsers();
-  loadDashboard();
+  loadUsers(); loadDashboard();
 }
 
-/* ══════════════════════════════════════════════
-   SYSTEM STATUS
-══════════════════════════════════════════════ */
+/* ══ SYSTEM ═════════════════════════════════════════════════ */
 async function loadSystem() {
-  const data = await api('/api/system/status');
+  const data = await api(API.system);
   if (!data) return;
-  const dot = s => s === 'Online' || s === 'Valid' || s === 'Done'
-    ? '<span class="badge b-green">' + esc(s) + '</span>'
-    : '<span class="badge b-red">'   + esc(s) + '</span>';
-
+  const dot = v => ['Online','Valid','Done'].includes(v)
+    ? `<span class="badge b-green">${esc(v)}</span>`
+    : `<span class="badge b-red">${esc(v)}</span>`;
   document.getElementById('system-body').innerHTML = `
     <tr><td><strong>🖥 Server</strong></td><td>${dot(data.server)}</td><td>Operational</td></tr>
-    <tr><td><strong>🗄 Database</strong></td><td>${dot(data.database)}</td><td>${esc(data.database)} · Connection pool active</td></tr>
+    <tr><td><strong>🗄 Database</strong></td><td>${dot(data.database)}</td><td>${esc(data.database)} · Connected</td></tr>
     <tr><td><strong>🤖 AI Engine</strong></td><td>${dot(data.ai_engine)}</td><td>Running · ${esc(data.version)}</td></tr>
     <tr><td><strong>🔒 SSL/TLS</strong></td><td>${dot(data.ssl)}</td><td>TLS 1.3</td></tr>
     <tr><td><strong>⬆ Uptime</strong></td><td><span class="badge b-blue">${esc(data.uptime)}</span></td><td>Since last restart</td></tr>
@@ -628,9 +540,7 @@ async function loadSystem() {
   `;
 }
 
-/* ══════════════════════════════════════════════
-   INITIAL LOAD
-══════════════════════════════════════════════ */
+/* ══ INIT ═══════════════════════════════════════════════════ */
 loadDashboard();
 </script>
 </body>
